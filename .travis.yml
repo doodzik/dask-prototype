@@ -1,0 +1,14 @@
+language: ruby
+rvm:
+- 2.0.0
+- 1.9.3
+- jruby-19mode
+- rbx-2
+deploy:
+  provider: heroku
+  api_key:
+    secure: gfyMvgQKsOSyNupMCmgayl8ktkD/PcCmSNT1KeKWDgJ+yMjJP6Qfe8AshK24cAR266eoPNlkVyGJm1qxYOeOjPQQC+R9a4UKpCfcNNPPC7aEKMrMhqc77BnYzpic76DGZ0VzwRgJoHH8grUQW7R2O4FLNF5AuSsA2eCLZSKDUt0=
+  app: dask-api
+  on:
+    branch: master
+    repo: doodzik/dask-api
