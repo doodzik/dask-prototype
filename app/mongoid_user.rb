@@ -1,5 +1,5 @@
 require 'Mongoid'
-require 'lib/session'
+require 'session'
 require 'BCrypt'
 
 # top comment
@@ -46,14 +46,42 @@ module Mongodb
       secure_compare givenToken, token
     end
 
+    def login(email, password)
+      user = find(email)
+      if user.compare_password(password)
+        user.token = generate_token
+        user
+      else
+        NullUser.new
+      end
+    end
+
+    def generate_token
+      Session.generate_unique_token do |token|
+        Mongodb::User.find_by token: token
+      end
+    end
+
     def to_bearer
       { access_token: token, token_type: 'bearer' }
+    end
+
+    def to_json
+      "{\"user\":#{as_json}}"
     end
   end
 
   # top comment
   class NullUser
+    def method_missing
+      false
+    end
+
     def authenticated?(_token)
+      false
+    end
+
+    def safe
       false
     end
   end

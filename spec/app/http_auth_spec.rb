@@ -1,51 +1,25 @@
-=begin
-require 'support'
+require 'support_http'
 
-require 'rspec'
-require 'rack/test'
+require 'http_auth'
 
-
-require 'contracts/http.rb'
-require 'adapters/http_auth.rb'
-
-describe Http::Auth do
+describe Api::Auth do
   include Rack::Test::Methods
 
   def app
-    Http::Server.new
-  end
-=begin
-  it 'get /auths' do
-    get '/auths'
-    expect(last_response).to be_ok
-    expect(last_response.body).to eql('"Mongoid::Auth.all"')
+    Api::Auth
   end
 
-  it 'get /auths/:id' do
-    get '/auths/:id'
-    expect(last_response).to be_ok
-    expect(last_response.body)
-    .to eql('"Mongoid::Auth.find(params[:id])"')
+  it 'post /token returns error' do
+    user = double('user', save: false)
+    allow(Mongodb::User).to receive_message_chain(:login).and_return(user)
+    post '/token'
+    expect(last_response.body).to eql('password or email was false')
   end
 
-  it 'post /auths' do
-    post '/auths'
-    expect(last_response).to be_successful
-    expect(last_response.body).to eql('"auth.save!"')
+  it 'post /token returns token with' do
+    user = double('user', save: true, to_bearer: 'works')
+    allow(Mongodb::User).to receive_message_chain(:login).and_return(user)
+    post '/token'
+    expect(last_response.body).to eql('works')
   end
-
-  it 'put /auths/:id' do
-    put '/auths/5'
-    expect(last_response).to be_ok
-    expect(last_response.body).to eql('"erroring"')
-  end
-
-  it 'delete /auths/:id' do
-    delete '/auths/5'
-    expect(last_response).to be_ok
-    expect(last_response.body)
-    .to eql('"Mongoid::Auth.find(params[:id]).delete"')
-  end
-#=end
-#end
-=end
+end

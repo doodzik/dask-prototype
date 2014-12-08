@@ -1,5 +1,5 @@
 require 'grape'
-#require 'http_helpers'
+require 'http_helpers'
 #require 'mongoid_user'
 
 # top comment
@@ -8,21 +8,19 @@ module Api
   class User < Grape::API
     default_error_status 400
 
-    get '/' do
-      'hi'
-    end
-    # helpers HttpHelpers
+    helpers HttpHelpers
 
-    # before { authenticate! }
-=begin
+    before do
+      @current_user = authenticate!(headers[:authentication])
+      error!('401 Unauthorized', 401) unless @current_user
+    end
+
     desc 'GET	/users/:id	users#show	display a specific user'
     params do
       requires :id
     end
     get '/users/:id' do
-      current_user ||= Mongodb::User.current(headers[:authentication])
-      error!('401 Unauthorized', 401) unless current_user.authenticated?
-      current_user
+      @current_user
     end
 
     desc 'POST	/users	users#create	create a new user'
@@ -42,6 +40,5 @@ module Api
         @current_user.save
       end
     end
-=end
   end
 end

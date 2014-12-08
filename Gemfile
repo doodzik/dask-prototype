@@ -9,7 +9,7 @@ gem 'grape-swagger', '~> 0.7.2'
 gem 'nokogiri', '~> 1.6.1'
 gem 'zip', '~> 2.0.2'
 gem 'jackalope'
-gem 'mongoid', "~> 4.0.0"
+gem 'mongoid', '~> 4.0.0'
 gem 'mongoid-rspec', '~> 2.0.0.rc1'
 gem 'mime-types'
 gem 'yard'
@@ -18,11 +18,11 @@ gem 'bunny'
 
 group :development do
   gem 'rake'
-  gem 'guard', '~> 1.6.1'
-  gem 'guard-bundler', '~> 1.0.0'
-  gem 'guard-rack', '~> 1.2.2'
+  gem 'guard'
+  # gem 'guard-bundler', '~> 1.0.0'
+  gem 'guard-rack'
   gem 'rubocop', '0.24.1'
-  #TODO implement
+  # TODO: implement
   gem 'byebug'
 end
 
@@ -31,7 +31,7 @@ group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'capybara', '2.1.0'
   gem 'selenium-webdriver', '2.32.1'
-  #TODO implement
+  # TODO: implement
   gem 'simplecov', require: false
   gem 'mutant-rspec'
   gem 'mutant'

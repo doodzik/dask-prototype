@@ -1,13 +1,13 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
-guard 'bundler' do
-  watch('Gemfile')
+# guard 'bundler' do
+#   watch('Gemfile')
   # Uncomment next line if Gemfile contain `gemspec' command
   # watch(/^.+\.gemspec/)
-end
+# end
 
 guard 'rack' do
   watch('Gemfile.lock')
-  watch(%r{^(adapters|lib|contracts)/.*})
+  watch(%r{^(app|lib)/.*})
 end

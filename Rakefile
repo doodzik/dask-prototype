@@ -3,6 +3,8 @@ require 'rubocop/rake_task'
 require 'rspec/core/rake_task'
 
 RuboCop::RakeTask.new(:rubocop)
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.verbose = false
+end
 
 task default: [:spec] # :rubocop

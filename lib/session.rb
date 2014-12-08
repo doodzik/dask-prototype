@@ -15,7 +15,7 @@ module Session
     def generate_unique_token
       loop do
         token = generate_token
-        break token unless yield
+        break token unless yield(token)
       end
     end
 

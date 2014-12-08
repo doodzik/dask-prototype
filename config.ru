@@ -20,7 +20,7 @@ module Mongoid
   end
 end
 
-Mongoid.load!("config/mongoid.yml")
+Mongoid.load!("./config/mongoid.yml")
 
 # setup api
 
