@@ -7,7 +7,7 @@ module Api
   # top comment
   class User < Grape::API
     default_error_status 400
-
+    format :json
     helpers HttpHelpers
 
     before do
@@ -25,12 +25,13 @@ module Api
 
     desc 'POST	/users	users#create	create a new user'
     post '/users' do
+      # TODO: refactor extendet_new into initializer
       user = Mongodb::User.extendet_new(
         email: params[:email],
         pw: params[:password],
         token: params[:token]
       )
-      user.save ? { password: '', email: user.email } : error!('erroring')
+      user.save ? { password: '', email: user.email } : error!('check your data')
     end
 
     desc 'PATCH/PUT	/users/:id	users#update	update a specific user'
