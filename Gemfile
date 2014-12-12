@@ -38,4 +38,4 @@ group :test do
   gem 'mutant'
 end
 
-gem 'did_you_mean', group: [:development, :test]
+# gem 'did_you_mean', group: [:development, :test]

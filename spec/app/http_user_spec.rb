@@ -35,14 +35,12 @@ describe Api::User do
 
 
   it 'put /users/:id' do
-    pending 'how to check if save is being called and email is assigned'
-    user_new = double('user', compare_password: true)
+    user_new = double('user', compare_password: true, save: user)
+    allow(user_new).to receive(:email=).with('hi@test.de')
     Grape::Endpoint.before_each do |endpoint|
       allow(endpoint).to receive(:authenticate!).and_return(user_new)
     end
-    put '/users/5'
-    expect(user_new).to have_received(:email)
-    expect(user_new).to have_received(:save)
+    put '/users/5', password: '', email: 'hi@test.de'
     expect(last_response.body).to eql(user_new.to_json)
   end
 end
