@@ -1,51 +1,31 @@
 require 'support_http'
-require 'http_task'
+require 'http_task_daily'
 
-describe Api::Task do
+describe Api::TaskDaily do
   include Rack::Test::Methods
 
-  let(:user) { double('user') }
+
+  let(:task) { double('task', save: 'saved') }
+  let(:tasks) { double('tasks', find: task) }
+  let(:user) { double('user', tasks: tasks) }
   before do
     Grape::Endpoint.before_each do |endpoint|
       allow(endpoint).to receive_message_chain(:authenticate!).and_return(user)
     end
   end
   def app
-    Api::Task.new
-  end
-
-=begin
-  it 'get /tasks' do
-    get '/tasks'
-    expect(last_response).to be_ok
-    expect(last_response.body).to eql('"Mongoid::Task.all"')
-  end
-
-  it 'get /tasks/:id' do
-    get '/tasks/:id'
-    expect(last_response).to be_ok
-    expect(last_response.body)
-    .to eql('"Mongoid::Task.find(params[:id])"')
+    Api::TaskDaily.new
   end
 
   it 'post /tasks' do
-    post '/tasks'
-    expect(last_response).to be_successful
-    expect(last_response.body).to eql('"task.save!"')
-  end
-
-  it 'put /tasks/:id' do
-    put '/tasks/5'
-    expect(last_response).to be_ok
-    expect(last_response.body).to eql('"erroring"')
+    allow(task).to receive(:check).with(123)
+    post '/tasks', time: 123
+    expect(last_response.body).to eql('saved'.to_json)
   end
 
   it 'delete /tasks/:id' do
+    allow(task).to receive(:uncheck)
     delete '/tasks/5'
-    expect(last_response).to be_ok
-    expect(last_response.body)
-    .to eql('"Mongoid::Task.find(params[:id]).delete"')
+    expect(last_response.body).to eql('saved'.to_json)
   end
-=end
 end
-

@@ -2,7 +2,7 @@ require 'grape'
 require 'http_helpers'
 
 # top comment
-module Http
+module Api
   # top comment
   class TaskDaily < Grape::API
     default_error_status 400
@@ -10,8 +10,14 @@ module Http
 
     helpers HttpHelpers
 
-    before { authenticate! }
+    before do
+      @current_user = authenticate!(headers[:authentication])
+      error!('401 Unauthorized', 401) unless @current_user
+    end
 
+    params do
+      requires :time, type: Integer
+    end
     desc 'POST	/tasks	tasks#create	create a new task'
     post '/tasks' do
       task = @current_user.tasks.find params[:id]
@@ -21,7 +27,7 @@ module Http
 
     delete '/tasks/:id' do
       task = @current_user.tasks.find params[:id]
-      task.uncheck(params[:time])
+      task.uncheck
       task.save
     end
   end

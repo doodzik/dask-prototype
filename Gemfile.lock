@@ -55,8 +55,6 @@ GEM
     debugger-linecache (1.2.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    did_you_mean (0.8.0)
-      interception
     diff-lcs (1.2.5)
     docile (1.1.5)
     equalizer (0.0.9)
@@ -95,7 +93,6 @@ GEM
     i18n (0.6.11)
     ice_nine (0.11.0)
     inflecto (0.0.2)
-    interception (0.5)
     jackalope (0.0.1)
       amqp
       rack
@@ -245,7 +242,6 @@ DEPENDENCIES
   bunny
   byebug
   capybara (= 2.1.0)
-  did_you_mean
   grape (~> 0.8.0)
   grape-entity (~> 0.4.2)
   grape-swagger (~> 0.7.2)
