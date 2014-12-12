@@ -6,10 +6,9 @@ module Mongodb
   class Task
     include Mongoid::Document
 
-    attr_reader :weekdays
     @weekdays = %w(sunday monday tuesday wednesday thursday friday saturday)
 
-    validates :days, inclusion: { in: [0..weekdays.lenght] }
+    validates :days, inclusion: { in: [0..@weekdays.length] }
     validates :name, presence: true, uniqueness: true
 
     field :name
@@ -17,8 +16,6 @@ module Mongodb
     field :days, type: Array
 
     belongs_to :user
-
-    scope :for_this_day, :english, -> { where(:days.in => [Time.now.wday]) }
 
     def checked?
       checked.wday == Time.now.wday

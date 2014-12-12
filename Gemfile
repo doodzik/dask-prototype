@@ -19,8 +19,9 @@ gem 'bunny'
 group :development do
   gem 'rake'
   gem 'guard'
-  # gem 'guard-bundler', '~> 1.0.0'
-  gem 'guard-rack'
+  gem 'guard-bundler', '~> 1.0.0'
+  # gem 'guard-rack'
+  gem 'guard-rspec'
   gem 'rubocop', '0.24.1'
   # TODO: implement
   gem 'byebug'

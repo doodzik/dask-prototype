@@ -1,52 +1,52 @@
 require 'grape'
 require 'http_helpers'
+require 'mongoid_task'
 
 # top comment
-module Http
+module Api
   # top comment
   class Task < Grape::API
     default_error_status 400
     format :json
 
-    #helpers HttpHelpers
+    helpers HttpHelpers
 
-    #before { authenticate! }
+    before do
+      @current_user = authenticate!(headers[:authentication])
+      error!('401 Unauthorized', 401) unless @current_user
+    end
 
     desc 'GET	/tasks	display a list of all task elements'
+    # TODO: rewrite client to handle the querying
     get '/tasks' do
-      '@current_user.tasks.for_this_day.map(&to_h)'
+      @current_user.tasks
     end
-=begin
+
     desc 'GET	/tasks/:id	tasks#show	display a specific task'
-    params do
-      requires :id
-    end
     get '/tasks/:id' do
       @current_user.tasks.find params[:id]
     end
 
     desc 'POST	/tasks	tasks#create	create a new task'
     post '/tasks' do
-      Mongodb::Task.new(
+      task = Mongodb::Task.new(
         days: params[:days],
         name: params[:name],
         user: @current_user
-      ).save
+      )
+      task.save
     end
 
     desc 'PATCH/PUT	/tasks/:id	tasks#update	update a specific task'
+    # TODO: check(now in task daily) should be an own endpoint on client
     put '/tasks/:id' do
       task = @current_user.tasks.find params[:id]
-      if task.checked? == params[:checked]
-        task.days = params[:days]
-      else
-        task.check
-      end.save
+      task.days = params[:days]
+      task.save
     end
 
     delete '/tasks/:id' do
       @current_user.tasks.find(params[:id]).delete
     end
   end
-=end
 end

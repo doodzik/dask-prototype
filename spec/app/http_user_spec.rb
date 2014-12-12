@@ -1,5 +1,4 @@
 require 'support_http'
-
 require 'http_user'
 
 describe Api::User do
@@ -14,11 +13,6 @@ describe Api::User do
   def app
     Api::User
   end
-
-  # it 'get' do
-  #   get '/'
-  #   expect(last_response.body).to eql('hi')
-  # end
 
   it 'get /users/:id' do
     get '/users/1'
@@ -51,11 +45,4 @@ describe Api::User do
     expect(user_new).to have_received(:save)
     expect(last_response.body).to eql(user_new.to_json)
   end
-
-  # it 'delete /users/:id' do
-  #   delete '/users/5'
-  #   expect(last_response).to be_ok
-  #   expect(last_response.body)
-  #   .to eql('"Mongoid::User.find(params[:id]).delete"')
-  # end
 end

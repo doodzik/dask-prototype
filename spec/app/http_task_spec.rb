@@ -1,52 +1,47 @@
-=begin
-ENV['RACK_ENV'] = 'test'
+require 'support_http'
+require 'http_task'
 
-require 'rspec'
-require 'rack/test'
-
-
-require './contracts/http.rb'
-require './adapters/http_task.rb'
-
-describe Http::Task do
+describe Api::Task do
   include Rack::Test::Methods
 
-  def app
-    Http::Server.new
+  let(:task) { double('task', save: 'saved', delete: 'deleted') }
+  let(:tasks) { double('tasks', find: task) }
+  let(:user) { double('user', tasks: tasks) }
+  before do
+    Grape::Endpoint.before_each do |endpoint|
+      allow(endpoint).to receive_message_chain(:authenticate!).and_return(user)
+    end
   end
 
-=begin
+  def app
+    Api::Task.new
+  end
+
   it 'get /tasks' do
     get '/tasks'
-    expect(last_response).to be_ok
-    expect(last_response.body).to eql('"Mongoid::Task.all"')
+    expect(last_response.body).to eql(tasks.to_json)
   end
 
   it 'get /tasks/:id' do
     get '/tasks/:id'
-    expect(last_response).to be_ok
-    expect(last_response.body)
-    .to eql('"Mongoid::Task.find(params[:id])"')
+    expect(last_response.body).to eql(task.to_json)
   end
 
   it 'post /tasks' do
+    allow(Mongodb::Task).to receive(:new).and_return(task)
     post '/tasks'
-    expect(last_response).to be_successful
-    expect(last_response.body).to eql('"task.save!"')
+    expect(last_response.body).to eql('saved'.to_json)
   end
 
   it 'put /tasks/:id' do
-    put '/tasks/5'
-    expect(last_response).to be_ok
-    expect(last_response.body).to eql('"erroring"')
+    allow(task).to receive(:days=).with(['sunday'])
+    put '/tasks/5', days: [:sunday]
+    expect(last_response.body).to eql('saved'.to_json)
   end
 
   it 'delete /tasks/:id' do
     delete '/tasks/5'
-    expect(last_response).to be_ok
-    expect(last_response.body)
-    .to eql('"Mongoid::Task.find(params[:id]).delete"')
+    expect(last_response.body).to eql('deleted'.to_json)
   end
 end
 
-=end
