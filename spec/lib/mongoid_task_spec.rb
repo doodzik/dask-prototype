@@ -12,7 +12,7 @@ describe Mongodb::Task do
 
   it { should be_embedded_in(:user) }
 
-  it { should validate_inclusion_of(:days).to_allow([0..7]) }
+  it { should validate_inclusion_of(:days).to_allow([1..7]) }
   it { should validate_presence_of(:name) }
   it { should validate_length_of(:name).within(1..140) }
 

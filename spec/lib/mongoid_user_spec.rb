@@ -8,7 +8,7 @@ describe Mongodb::User do
   it { should validate_uniqueness_of(:email).case_insensitive }
 
   it '.extendet_new' do
-    user = double('user')
+    user = instance_double('User')
     allow(Mongodb::User).to receive(:new).with(email: 'email').and_return(user)
     allow(user).to receive(:password=).with('password')
     allow(Mongodb::User).to receive(:generate_token).and_return('generated')
@@ -26,7 +26,7 @@ describe Mongodb::User do
     end
 
     it 'succeeds' do
-      user = double('user')
+      user = instance_double('User')
       allow(Mongodb::User).to receive(:find_by)
         .with(token: 'token').and_return(user)
       expect(Mongodb::User.current('token')).to eql(user)
@@ -53,7 +53,7 @@ describe Mongodb::User do
 
   context '.login' do
     it 'fails' do
-      user = double('user', compare_password: false)
+      user = instance_double('User', compare_password: false)
       allow(Mongodb::User).to receive(:find_by)
         .with(email: 'email').and_return(user)
       expect(Mongodb::User.login('email', 'pw'))
@@ -61,7 +61,7 @@ describe Mongodb::User do
     end
 
     it 'succeeds' do
-      user = double('user', compare_password: true)
+      user = instance_double('User', compare_password: true)
       allow(user).to receive(:token=).with('token')
       allow(Mongodb::User).to receive(:find_by)
         .with(email: 'email').and_return(user)

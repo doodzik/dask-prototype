@@ -8,7 +8,7 @@ module Mongodb
 
     @weekdays = %w(sunday monday tuesday wednesday thursday friday saturday)
 
-    validates :days, inclusion: { in: [0..7] }
+    validates :days, inclusion: { in: [1..7] }
     validates :name, presence: true
     validates_length_of :name, within: 1..140
 
@@ -18,14 +18,21 @@ module Mongodb
 
     embedded_in :user
 
+    # checks if task is checked
+    # @return [Boolean]
     def checked?
       checked != Time.at(0)
     end
 
+    # sets checked to unchecked
+    # @return [void]
     def uncheck
       self.checked = Time.at(0)
     end
 
+    # sets checked to time
+    # @param time [Time]
+    # @return [void]
     def check(time)
       self.checked = Time.at(time)
     end
