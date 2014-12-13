@@ -1,4 +1,4 @@
-require 'Mongoid'
+require 'mongoid'
 
 # top comment
 module Mongodb

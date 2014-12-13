@@ -1,4 +1,4 @@
-require 'Mongoid'
+require 'mongoid'
 require 'session'
 require 'BCrypt'
 
