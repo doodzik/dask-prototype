@@ -23,20 +23,22 @@ describe Api::Task do
   end
 
   it 'get /tasks/:id' do
-    get '/tasks/:id'
+    get '/tasks/5'
     expect(last_response.body).to eql(task.to_json)
   end
 
   it 'post /tasks' do
-    allow(Mongodb::Task).to receive(:new).and_return(task)
+    allow(Mongodb::Task).to receive(:new).with(days: [1, 4], name: 'test')
+      .and_return(task)
     allow(tasks).to receive(:<<).with(task)
-    post '/tasks'
+    post '/tasks', days: [1, 4], name: 'test'
     expect(last_response.body).to eql(task.to_json)
   end
 
   it 'put /tasks/:id' do
-    allow(task).to receive(:days=).with(['sunday'])
-    put '/tasks/5', days: [:sunday]
+    allow(task).to receive(:days=).with([1])
+    allow(task).to receive(:name=).with('te')
+    put '/tasks/5', days: [1], name: 'te'
     expect(last_response.body).to eql('saved'.to_json)
   end
 
