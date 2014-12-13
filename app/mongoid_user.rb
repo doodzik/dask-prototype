@@ -1,6 +1,7 @@
 require 'mongoid'
 require 'session'
-require 'BCrypt'
+require 'bcrypt'
+require 'mongoid_task'
 
 # top comment
 module Mongodb
@@ -8,7 +9,6 @@ module Mongodb
   class User
     include Mongoid::Document
     include BCrypt
-    include Session
 
     validates :email, presence: true
     validates_uniqueness_of :email, case_sensitive: false
@@ -19,14 +19,16 @@ module Mongodb
 
     embeds_many :tasks
 
+    # TODO put this into initializer
     def self.extendet_new(email:, pw:, token:)
       usr = new email: email
       usr.password = pw
-      token = generate_unique_token { find_by token: token }
+      usr.token = generate_token
+      usr
     end
 
     def self.current(token)
-      find(token: token) || NullUser.new
+      find_by(token: token) || NullUser.new
     end
 
     def password
@@ -43,11 +45,11 @@ module Mongodb
     end
 
     def authenticated?(givenToken)
-      secure_compare givenToken, token
+      Session.secure_compare givenToken, token
     end
 
-    def login(email, password)
-      user = find(email)
+    def self.login(email, password)
+      user = find_by(email: email)
       if user.compare_password(password)
         user.token = generate_token
         user
@@ -56,7 +58,7 @@ module Mongodb
       end
     end
 
-    def generate_token
+    def self.generate_token
       Session.generate_unique_token do |token|
         Mongodb::User.find_by token: token
       end
@@ -73,15 +75,7 @@ module Mongodb
 
   # top comment
   class NullUser
-    def method_missing
-      false
-    end
-
-    def authenticated?(_token)
-      false
-    end
-
-    def safe
+    def method_missing(_name)
       false
     end
   end
