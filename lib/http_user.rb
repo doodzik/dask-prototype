@@ -23,6 +23,10 @@ module Api
       @current_user
     end
 
+    params do
+      requires :email, regexp: /.+@.+/
+      requires :password, within: 6..32
+    end
     desc 'POST	/users	users#create	create a new user'
     post '/users' do
       # TODO: refactor extendet_new into initializer
@@ -33,6 +37,10 @@ module Api
       user.save ? { email: user.email } : error!('check your data')
     end
 
+    params do
+      requires :email, regexp: /.+@.+/
+      requires :password, within: 6..32
+    end
     desc 'PATCH/PUT	/users/:id	users#update	update a specific user'
     put '/users/:id' do
       if @current_user.compare_password(params[:password])
