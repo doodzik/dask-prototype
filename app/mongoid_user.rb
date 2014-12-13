@@ -17,7 +17,7 @@ module Mongodb
     field :token
     field :email
 
-    has_many :tasks
+    embeds_many :tasks
 
     def self.extendet_new(email:, pw:, token:)
       usr = new email: email

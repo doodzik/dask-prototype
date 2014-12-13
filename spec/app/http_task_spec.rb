@@ -29,8 +29,9 @@ describe Api::Task do
 
   it 'post /tasks' do
     allow(Mongodb::Task).to receive(:new).and_return(task)
+    allow(tasks).to receive(:<<).with(task)
     post '/tasks'
-    expect(last_response.body).to eql('saved'.to_json)
+    expect(last_response.body).to eql(task.to_json)
   end
 
   it 'put /tasks/:id' do

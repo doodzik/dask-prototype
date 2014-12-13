@@ -23,8 +23,7 @@ group :development do
   # gem 'guard-rack'
   gem 'guard-rspec'
   gem 'rubocop', '0.24.1'
-  # TODO: implement
-  gem 'byebug'
+  # gem 'byebug'
 end
 
 group :test do

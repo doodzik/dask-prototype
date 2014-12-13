@@ -31,10 +31,10 @@ module Api
     post '/tasks' do
       task = Mongodb::Task.new(
         days: params[:days],
-        name: params[:name],
-        user: @current_user
+        name: params[:name]
       )
-      task.save
+      @current_user.tasks << task
+      task
     end
 
     desc 'PATCH/PUT	/tasks/:id	tasks#update	update a specific task'

@@ -8,27 +8,26 @@ module Mongodb
 
     @weekdays = %w(sunday monday tuesday wednesday thursday friday saturday)
 
-    validates :days, inclusion: { in: [0..@weekdays.length] }
-    validates :name, presence: true, uniqueness: true
+    validates :days, inclusion: { in: [0..7] }
+    validates :name, presence: true
+    validates_length_of :name, within: 1..140
 
     field :name
-    field :checked, type: Time
-    field :days, type: Array
+    field :checked, type: Time, default: Time.at(0)
+    field :days, type: Array, default: []
 
-    belongs_to :user
+    embedded_in :user
 
     def checked?
-      checked.wday == Time.now.wday
+      checked != Time.at(0)
     end
 
-    def check
-      checked = checked? ? Time.at(628_232_400) : Time.now
+    def uncheck
+      self.checked = Time.at(0)
     end
 
-    def to_h
-      hash = Hash[attributes]
-      hash.checked = checked?
-      hash
+    def check(time)
+      self.checked = Time.at(time)
     end
   end
 end
