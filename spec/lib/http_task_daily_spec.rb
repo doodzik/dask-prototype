@@ -18,7 +18,7 @@ describe Api::TaskDaily do
 
   it 'post /tasks' do
     allow(task).to receive(:check).with(123)
-    post '/tasks', time: 123
+    post '/tasks', time: 123, id: 123
     expect(last_response.body).to eql('saved'.to_json)
   end
 

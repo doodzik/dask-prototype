@@ -16,15 +16,19 @@ module Api
     end
 
     params do
+      requires :id
       requires :time, type: Integer
     end
-    desc 'POST	/tasks	tasks#create	create a new task'
+    desc 'POST	/tasks	taskDaily#create	'
     post '/tasks' do
       task = @current_user.tasks.find params[:id]
       task.check(params[:time])
       task.save
     end
 
+    params do
+      requires :id
+    end
     delete '/tasks/:id' do
       task = @current_user.tasks.find params[:id]
       task.uncheck
