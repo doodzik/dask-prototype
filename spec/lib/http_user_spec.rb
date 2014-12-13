@@ -23,16 +23,16 @@ describe Api::User do
     user_new = double('user', save: true, email: 'correct')
     allow(Mongodb::User).to receive(:extendet_new).and_return(user_new)
     post '/users'
-    expect(last_response.body).to eql({ password: '', email: user_new.email }.to_json)
+    expect(last_response.body)
+      .to eql({ email: user_new.email }.to_json)
   end
 
   it 'post /user unsuccessful' do
     user_new = double('user', save: false)
     allow(Mongodb::User).to receive(:extendet_new).and_return(user_new)
     post '/users'
-    expect(last_response.body).to eql({error:'check your data'}.to_json)
+    expect(last_response.body).to eql({ error: 'check your data' }.to_json)
   end
-
 
   it 'put /users/:id' do
     user_new = double('user', compare_password: true, save: user)

@@ -4,7 +4,6 @@ require 'http_task_daily'
 describe Api::TaskDaily do
   include Rack::Test::Methods
 
-
   let(:task) { double('task', save: 'saved') }
   let(:tasks) { double('tasks', find: task) }
   let(:user) { double('user', tasks: tasks) }

@@ -4,6 +4,7 @@ require 'http_task'
 require 'http_task_daily'
 
 module Api
+  # main api
   class Main < Grape::API
     format :json
 

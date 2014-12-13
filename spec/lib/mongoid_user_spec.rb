@@ -13,19 +13,22 @@ describe Mongodb::User do
     allow(user).to receive(:password=).with('password')
     allow(Mongodb::User).to receive(:generate_token).and_return('generated')
     allow(user).to receive(:token=).with('generated')
-    expect(Mongodb::User.extendet_new(email: 'email', pw: 'password', token: 'token'))
-    .to eql(user)
+    expect(Mongodb::User.extendet_new(email: 'email', pw: 'password'))
+      .to eql(user)
   end
 
   context '.current' do
     it 'fails' do
-      allow(Mongodb::User).to receive(:find_by).with({ token: 'token' }).and_return(false)
-      expect(Mongodb::User.current('token')).to be_instance_of(Mongodb::NullUser)
+      allow(Mongodb::User).to receive(:find_by)
+        .with(token: 'token').and_return(false)
+      expect(Mongodb::User.current('token'))
+        .to be_instance_of(Mongodb::NullUser)
     end
 
     it 'succeeds' do
       user = double('user')
-      allow(Mongodb::User).to receive(:find_by).with({ token: 'token' }).and_return(user)
+      allow(Mongodb::User).to receive(:find_by)
+        .with(token: 'token').and_return(user)
       expect(Mongodb::User.current('token')).to eql(user)
     end
   end
@@ -43,22 +46,25 @@ describe Mongodb::User do
   end
 
   it '#authenticated?' do
-      user = Mongodb::User.new(email: 'x', token: 'token')
-      allow(Session).to receive(:secure_compare).with('given_token', 'token')
-      user.authenticated?('given_token')
+    user = Mongodb::User.new(email: 'x', token: 'token')
+    allow(Session).to receive(:secure_compare).with('given_token', 'token')
+    user.authenticated?('given_token')
   end
 
   context '.login' do
     it 'fails' do
       user = double('user', compare_password: false)
-      allow(Mongodb::User).to receive(:find_by).with(email: 'email').and_return(user)
-      expect(Mongodb::User.login('email', 'pw')).to be_instance_of(Mongodb::NullUser)
+      allow(Mongodb::User).to receive(:find_by)
+        .with(email: 'email').and_return(user)
+      expect(Mongodb::User.login('email', 'pw'))
+        .to be_instance_of(Mongodb::NullUser)
     end
 
     it 'succeeds' do
       user = double('user', compare_password: true)
       allow(user).to receive(:token=).with('token')
-      allow(Mongodb::User).to receive(:find_by).with(email: 'email').and_return(user)
+      allow(Mongodb::User).to receive(:find_by)
+        .with(email: 'email').and_return(user)
       allow(Mongodb::User).to receive(:generate_token).and_return('token')
       expect(Mongodb::User.login('email', 'pw')).to eql(user)
     end
@@ -70,7 +76,7 @@ describe Mongodb::User do
 
   it '#to_bearer' do
     user = Mongodb::User.new(email: 'x', token: 'token')
-    expect(user.to_bearer).to eql({ access_token: 'token', token_type: 'bearer' })
+    expect(user.to_bearer).to eql(access_token: 'token', token_type: 'bearer')
   end
 
   it '#to_json' do

@@ -19,8 +19,8 @@ module Mongodb
 
     embeds_many :tasks
 
-    # TODO put this into initializer
-    def self.extendet_new(email:, pw:, token:)
+    # TODO: put this into initializer
+    def self.extendet_new(email:, pw:)
       usr = new email: email
       usr.password = pw
       usr.token = generate_token

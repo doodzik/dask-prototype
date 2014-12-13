@@ -1,6 +1,6 @@
 require 'grape'
 require 'http_helpers'
-#require 'mongoid_user'
+require 'mongoid_user'
 
 # top comment
 module Api
@@ -28,10 +28,9 @@ module Api
       # TODO: refactor extendet_new into initializer
       user = Mongodb::User.extendet_new(
         email: params[:email],
-        pw: params[:password],
-        token: params[:token]
+        pw: params[:password]
       )
-      user.save ? { password: '', email: user.email } : error!('check your data')
+      user.save ? { email: user.email } : error!('check your data')
     end
 
     desc 'PATCH/PUT	/users/:id	users#update	update a specific user'

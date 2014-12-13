@@ -45,4 +45,3 @@ describe Api::Task do
     expect(last_response.body).to eql('deleted'.to_json)
   end
 end
-
