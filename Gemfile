@@ -18,6 +18,7 @@ group :development do
   # gem 'guard-rack'
   gem 'guard-rspec'
   gem 'rubocop', '0.24.1'
+  gem 'reek'
   # gem 'byebug'
 end
 
