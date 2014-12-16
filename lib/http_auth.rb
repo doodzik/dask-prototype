@@ -3,7 +3,7 @@ require 'mongoid_user'
 require 'http_helpers'
 
 module Api
-  # comment
+  # Through this class a user can get authenticated
   class Auth < Grape::API
     params do
       requires :email, regexp: /.+@.+/
