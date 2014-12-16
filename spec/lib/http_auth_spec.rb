@@ -2,11 +2,11 @@ require 'support_http'
 
 require 'http_auth'
 
-describe Api::Auth do
+describe Auth::Api do
   include Rack::Test::Methods
 
   def app
-    Api::Auth
+    Auth::Api
   end
 
   it 'post /token returns error' do

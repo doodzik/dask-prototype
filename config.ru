@@ -19,9 +19,9 @@ module Mongoid
   end
 end
 
-Mongoid.load!("./config/mongoid.yml")
+Mongoid.load!('./config/mongoid.yml')
 
 # setup api
 require 'application'
 
-run Api::Main
+run Main::Api
