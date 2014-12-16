@@ -34,15 +34,26 @@ describe Mongodb::User do
   end
 
   it '#password' do
-    skip
+    user = Mongodb::User.new(password_hash: 'hallo', email: 'x', token: 'token')
+    allow(Mongodb::User::Password).to receive(:new).with('hallo').and_return('hallo')
+    user.password
+    expect(user.instance_variable_get(:@password)).to eql('hallo')
+    allow(Mongodb::User::Password).to receive(:new).with('hallo2').and_return('hallo2')
+    user.password
+    expect(user.instance_variable_get(:@password)).to eql('hallo')
   end
 
   it '#password=' do
-    skip
+    user = Mongodb::User.new(email: 'x', token: 'token')
+    allow(Mongodb::User::Password).to receive(:create).with('hallo').and_return('Hallo')
+    user.password = 'hallo'
+    expect(user.password_hash).to eql('Hallo')
   end
 
   it '#compare_password' do
-    skip
+    user = Mongodb::User.new(email: 'x', token: 'token')
+    allow(user).to receive(:password).and_return('hallo')
+    expect(user.compare_password('hallo')).to be true
   end
 
   it '#authenticated?' do
@@ -71,7 +82,9 @@ describe Mongodb::User do
   end
 
   it '.generate_token' do
-    skip
+    allow(Session).to receive(:generate_unique_token).and_yield('value').and_return('valueX')
+    allow(Mongodb::User).to receive(:find_by).with(token: 'value')
+    expect(Mongodb::User.generate_token).to eql('valueX')
   end
 
   it '#to_bearer' do
