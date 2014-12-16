@@ -9,7 +9,7 @@ module Api
     default_error_status 400
     format :json
 
-    helpers HttpHelpers
+    helpers Helpers
 
     before do
       @current_user = authenticate!(headers[:authentication])
