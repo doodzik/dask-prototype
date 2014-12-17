@@ -1,4 +1,4 @@
-require 'support_http'
+require 'support'
 require 'helpers_api'
 
 describe Api::Helpers do
@@ -20,9 +20,5 @@ describe Api::Helpers do
       auth.and_return(false)
       expect(helper.authenticate!('token')).to eq(false)
     end
-  end
-
-  it 'validator within' do
-    skip 'I have currently no idea how to test this'
   end
 end
