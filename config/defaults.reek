@@ -27,3 +27,7 @@ PrimaDonnaMethod:
 ControlParameter:
   exclude:
     - "Mongodb::User#self.current"
+
+TooManyStatements:
+  exclude:
+    - "Auth#compare_bytes"

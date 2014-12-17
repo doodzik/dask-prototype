@@ -30,14 +30,21 @@ describe Auth do
   end
 
   it '.blank?' do
-    skip
+    allow(described_class).to receive(:blank_string?).and_return(true, true)
+    expect(described_class.send(:blank?, 'a', 'b')).to be true
+    allow(described_class).to receive(:blank_string?).and_return(false, true)
+    expect(described_class.send(:blank?, 'a', 'b')).to be true
+    allow(described_class).to receive(:blank_string?).and_return(false, false)
+    expect(described_class.send(:blank?, 'a', 'b')).to be false
   end
 
   it '.blank_string?' do
-    skip
+    expect(described_class.send(:blank_string?, '')).to be true
+    expect(described_class.send(:blank_string?, 'a')).to be false
   end
 
   it '.compare_bytes' do
-    skip
+    expect(described_class.send(:compare_bytes, 'hasf', 'hasf')).to be true
+    expect(described_class.send(:compare_bytes, 'hsa', 'dfs')).to be false
   end
 end

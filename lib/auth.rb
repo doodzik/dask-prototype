@@ -32,7 +32,7 @@ module Auth
 
     # from device
     def blank?(a, b)
-      blank_string?(a) || blank_string?(b) || a.bytesize != b.bytesize
+      blank_string?(a) || blank_string?(b)
     end
 
     # from active_support
@@ -42,7 +42,9 @@ module Auth
 
     # from device
     def compare_bytes(a, b)
-      l = a.unpack "C#{a.bytesize}"
+      a_bytesize = a.bytesize
+      return false if a_bytesize != b.bytesize
+      l = a.unpack "C#{a_bytesize}"
       res = 0
       b.each_byte { |byte| res |= byte ^ l.shift }
       res == 0
