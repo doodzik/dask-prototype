@@ -44,8 +44,8 @@ module Mongodb
       password == password_to_compare
     end
 
-    def authenticated?(givenToken)
-      Auth.secure_compare givenToken, token
+    def authenticated?(given_token)
+      Auth.secure_compare given_token, token
     end
 
     def self.login(email, password)

@@ -1,0 +1,29 @@
+FeatureEnvy:
+  exclude:
+    - "MyModel#do_things"
+    - "MyHelper"
+    - "Auth#compare_bytes"
+    - "Api::Helpers#authenticate!"
+
+UncommunicativeParameterName:
+  exclude:
+    - "Auth#blank?"
+    - "Auth#compare_bytes"
+    - "Auth#secure_compare"
+
+UncommunicativeVariableName:
+  exclude:
+    - "Auth#compare_bytes"
+
+UtilityFunction:
+  exclude:
+    - "Auth#compare_bytes"
+    - "Api::Helpers#authenticate!"
+
+PrimaDonnaMethod:
+  exclude:
+    - "Api::Within"
+
+ControlParameter:
+  exclude:
+    - "Mongodb::User#self.current"

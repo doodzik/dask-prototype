@@ -7,6 +7,7 @@ RuboCop::RakeTask.new(:rubocop)
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.verbose = false
 end
+Reek::Rake::Task.new(:reek)
 
 # TODO: add reek
-task default: [:spec, :rubocop]
+task default: [:spec, :rubocop, :reek]
