@@ -17,24 +17,24 @@ describe Mongodb::Task do
   it { should validate_length_of(:name).within(1..140) }
 
   it 'check' do
-    task = Mongodb::Task.new(name: 'x')
+    task = described_class.new(name: 'x')
     task.check(123)
     expect(task.checked).to eql(Time.at(123))
   end
 
   it 'uncheck' do
-    task = Mongodb::Task.new(name: 'x', checked: Time.at(123))
+    task = described_class.new(name: 'x', checked: Time.at(123))
     task.uncheck
     expect(task.checked).to eql(Time.at(0))
   end
 
   it 'is checked?' do
-    task = Mongodb::Task.new(name: 'x', checked: Time.at(123))
+    task = described_class.new(name: 'x', checked: Time.at(123))
     expect(task.checked?).to be true
   end
 
   it 'isnt checked?' do
-    task = Mongodb::Task.new(name: 'x', checked: Time.at(0))
+    task = described_class.new(name: 'x', checked: Time.at(0))
     expect(task.checked?).to be false
   end
 end

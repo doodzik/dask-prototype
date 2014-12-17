@@ -7,13 +7,15 @@ describe Api::TaskDaily do
   let(:task) { double('task', save: 'saved') }
   let(:tasks) { double('tasks', find: task) }
   let(:user) { double('user', tasks: tasks) }
+
   before do
     Grape::Endpoint.before_each do |endpoint|
       allow(endpoint).to receive_message_chain(:authenticate!).and_return(user)
     end
   end
+
   def app
-    Api::TaskDaily.new
+    described_class.new
   end
 
   it 'post /tasks' do

@@ -14,7 +14,7 @@ describe Api::Task do
   end
 
   def app
-    Api::Task.new
+    described_class.new
   end
 
   it 'get /tasks' do

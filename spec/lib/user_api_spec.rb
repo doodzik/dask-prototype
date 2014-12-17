@@ -11,7 +11,7 @@ describe Api::User do
   include Rack::Test::Methods
 
   def app
-    Api::User
+    described_class.new
   end
 
   it 'get /users/:id' do

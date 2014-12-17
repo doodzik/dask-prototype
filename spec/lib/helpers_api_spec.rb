@@ -5,7 +5,7 @@ describe Api::Helpers do
   context '.authenticate!' do
     before do
       @object = Object.new
-      @object.extend(Api::Helpers)
+      @object.extend(described_class)
       @user = instance_double('User')
       allow(Mongodb::User).to receive(:current)
         .with('token').and_return(@user)
