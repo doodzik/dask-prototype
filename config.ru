@@ -4,6 +4,8 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'mongoid'
 require 'grape'
+require 'rack/cors'
+require 'main' # require api
 
 # setup mongoid
 
@@ -21,7 +23,13 @@ end
 
 Mongoid.load!('./config/mongoid.yml')
 
-# setup api
-require 'main'
+# add cors support
+use Rack::Cors do
+  allow do
+    origins '*'
+    resource '*', headers: :any, methods: :get
+  end
+end
+
 
 run Main::Api
