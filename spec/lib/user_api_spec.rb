@@ -1,5 +1,5 @@
 require 'support_http'
-require 'http_user'
+require 'user_api'
 
 describe Api::User do
   let(:user) { double('user') }

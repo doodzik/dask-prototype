@@ -1,5 +1,5 @@
 require 'support_mongoid'
-require 'mongoid_user'
+require 'user_mongoid'
 
 describe Mongodb::User do
   it { should have_fields(:email, :token, :password_hash) }

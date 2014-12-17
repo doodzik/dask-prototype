@@ -1,7 +1,7 @@
 require 'mongoid'
-require 'session'
+require 'auth'
 require 'bcrypt'
-require 'mongoid_task'
+require 'task_mongoid'
 
 # top comment
 module Mongodb

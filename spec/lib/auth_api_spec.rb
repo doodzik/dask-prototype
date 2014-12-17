@@ -1,6 +1,6 @@
 require 'support_http'
 
-require 'http_auth'
+require 'auth_api'
 
 describe Auth::Api do
   include Rack::Test::Methods

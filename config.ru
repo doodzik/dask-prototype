@@ -22,6 +22,6 @@ end
 Mongoid.load!('./config/mongoid.yml')
 
 # setup api
-require 'application'
+require 'main'
 
 run Main::Api

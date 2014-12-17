@@ -1,5 +1,5 @@
 require 'support'
-require 'session'
+require 'auth'
 
 describe Session do
   it '.secure_compare' do

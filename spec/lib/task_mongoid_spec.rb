@@ -1,5 +1,5 @@
 require 'support_mongoid'
-require 'mongoid_task'
+require 'task_mongoid'
 
 describe Mongodb::Task do
   it { should have_fields(:name) }

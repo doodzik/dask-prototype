@@ -1,5 +1,5 @@
 require 'support_http'
-require 'http_task_daily'
+require 'task_daily_api'
 
 describe Api::TaskDaily do
   include Rack::Test::Methods

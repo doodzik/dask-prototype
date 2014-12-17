@@ -1,6 +1,6 @@
 require 'grape'
-require 'http_helpers'
-require 'mongoid_user'
+require 'helpers_api'
+require 'user_mongoid'
 
 # top comment
 module Api

@@ -1,5 +1,5 @@
 require 'grape'
-require 'http_helpers'
+require 'helpers_api'
 
 # top comment
 module Api

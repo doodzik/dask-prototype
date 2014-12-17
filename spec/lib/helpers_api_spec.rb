@@ -1,5 +1,5 @@
 require 'support_http'
-require 'http_helpers'
+require 'helpers_api'
 
 describe Api::Helpers do
   context '.authenticate!' do

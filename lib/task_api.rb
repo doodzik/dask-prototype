@@ -1,6 +1,6 @@
 require 'grape'
-require 'http_helpers'
-require 'mongoid_task'
+require 'helpers_api'
+require 'task_mongoid'
 
 # top comment
 module Api

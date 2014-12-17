@@ -1,6 +1,6 @@
 require 'grape'
-require 'mongoid_user'
-require 'http_helpers'
+require 'user_mongoid'
+require 'helpers_api'
 
 module Auth
   # Through this class a user can get authenticated

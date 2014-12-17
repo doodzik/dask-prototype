@@ -1,5 +1,5 @@
 require 'support_http'
-require 'http_task'
+require 'task_api'
 
 describe Api::Task do
   include Rack::Test::Methods

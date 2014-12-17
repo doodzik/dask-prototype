@@ -1,4 +1,4 @@
-require 'mongoid_user'
+require 'user_mongoid'
 require 'grape/validations'
 
 # help methods for grape api
