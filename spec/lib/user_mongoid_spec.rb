@@ -61,7 +61,7 @@ describe Mongodb::User do
 
   it '#authenticated?' do
     user = Mongodb::User.new(email: 'x', token: 'token')
-    allow(Session).to receive(:secure_compare).with('given_token', 'token')
+    allow(Auth).to receive(:secure_compare).with('given_token', 'token')
     user.authenticated?('given_token')
   end
 
@@ -85,7 +85,7 @@ describe Mongodb::User do
   end
 
   it '.generate_token' do
-    allow(Session).to receive(:generate_unique_token)
+    allow(Auth).to receive(:generate_unique_token)
       .and_yield('value').and_return('valueX')
     allow(Mongodb::User).to receive(:find_by).with(token: 'value')
     expect(Mongodb::User.generate_token).to eql('valueX')

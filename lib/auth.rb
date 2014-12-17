@@ -1,5 +1,5 @@
 # top comment
-module Session
+module Auth
   # top comment
   class << self
     # This is copied from Devise.secure_compare

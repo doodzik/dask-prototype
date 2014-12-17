@@ -45,7 +45,7 @@ module Mongodb
     end
 
     def authenticated?(givenToken)
-      Session.secure_compare givenToken, token
+      Auth.secure_compare givenToken, token
     end
 
     def self.login(email, password)
@@ -59,7 +59,7 @@ module Mongodb
     end
 
     def self.generate_token
-      Session.generate_unique_token do |token|
+      Auth.generate_unique_token do |token|
         Mongodb::User.find_by token: token
       end
     end
