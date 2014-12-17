@@ -1,2 +1,10 @@
+require: rubocop-rspec
+
+# when issue 20 is fixed
+# then the flag can be removed
+RSpec/FilePath:
+  Enabled: false
+
+# Because of Auth.string_blank?
 Style/CaseEquality:
   Enabled: false
