@@ -29,7 +29,6 @@ module Api
     end
     desc 'POST	/users	users#create	create a new user'
     post '/users' do
-      # TODO: refactor extendet_new into initializer
       user = Mongodb::User.extendet_new(
         email: params[:email],
         pw: params[:password]
