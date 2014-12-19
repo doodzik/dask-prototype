@@ -1,7 +1,5 @@
 source 'http://rubygems.org'
 
-ruby '2.1.5'
-
 gem 'rack', '~> 1.4.1'
 gem 'rack-cors', '~> 0.2.8'
 gem 'grape', '~> 0.8.0'
@@ -19,14 +17,15 @@ group :development do
   gem 'rubocop-rspec'
   gem 'reek'
   gem 'yard'
-  gem 'did_you_mean', '~> 0.9'
-  gem 'byebug'
 end
 
 group :test do
   gem 'rspec'
   gem 'rack-test', '~> 0.6.2'
   gem 'simplecov', require: false
-  gem 'mutant-rspec'
-  gem 'mutant'
+end
+
+group :test, :development do
+  gem 'byebug'
+  gem 'did_you_mean', '~> 0.9'
 end
