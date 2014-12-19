@@ -55,12 +55,17 @@ describe String do
     expect('string3'.equal_bytesize? 'stringä').to be false
   end
 
-  # TODO: test the actual functionalety
-  it '.equal_by_bytes?' do
-    expect('string'.equal_bytesize? 'string').to be true
-    expect('string3'.equal_bytesize? 'string2').to be true
-    str = 'hi'
-    allow(str).to receive(:equal_bytesize?).and_return false
-    expect(str.equal_bytesize? 'hi').to be false
+  describe '.equal_by_bytes?' do
+    it '#equal_bytesize? returns false' do
+      str = 'hi'
+      allow(str).to receive(:equal_bytesize?).and_return false
+      expect(str.equal_by_bytes?('hi')).to be false
+    end
+
+    it '#equal_bytesize? returns true' do
+      str = 'hi'
+      allow(str).to receive(:equal_bytesize?).and_return true
+      expect(str.equal_by_bytes?('hi')).to be true
+    end
   end
 end

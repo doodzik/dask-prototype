@@ -29,7 +29,7 @@ class String
   end
 
   def equal_by_bytes?(string)
-    return unless equal_bytesize?(string)
+    return false unless equal_bytesize?(string)
     unpacked = unpack "C#{bytesize}"
     res = 0
     string.each_byte { |byte| res |= byte ^ unpacked.shift }
