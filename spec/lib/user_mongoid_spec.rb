@@ -65,7 +65,8 @@ describe Mongodb do
 
     it '#authenticated?' do
       user = described_class.new(email: 'x', token: 'token')
-      allow(Auth).to receive(:secure_compare).with('given_token', 'token')
+      str = 'token'
+      allow(str).to receive(:strict_eql?).with('given_token')
       user.authenticated?('given_token')
     end
 

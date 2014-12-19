@@ -39,14 +39,16 @@ module Mongodb
       self.password_hash = @password = Password.create(new_password)
     end
 
+    # TODO: find better name
     def compare_password(password_to_compare)
       password == password_to_compare
     end
 
     def authenticated?(given_token)
-      Auth.secure_compare given_token, token
+      token.strict_eql? given_token
     end
 
+    # TODO: refactor to Auth when splitting modules
     def self.login(email, password)
       user = find_by(email: email)
       if user.compare_password(password)
