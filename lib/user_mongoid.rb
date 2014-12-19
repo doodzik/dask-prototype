@@ -19,7 +19,6 @@ module Mongodb
 
     embeds_many :tasks
 
-    # TODO: put this into initializer
     def self.extendet_new(email:, pw:)
       usr = new email: email
       usr.password = pw
@@ -39,7 +38,6 @@ module Mongodb
       self.password_hash = @password = Password.create(new_password)
     end
 
-    # TODO: find better name
     def compare_password(password_to_compare)
       password == password_to_compare
     end

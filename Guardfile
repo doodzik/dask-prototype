@@ -12,7 +12,6 @@ end
 #   watch(%r{^(app|lib)/.*})
 # end
 
-# TODO: fix error
 # guard 'rspec', version: 3 do
 #   watch(%r{^spec/.+_spec\.rb$})
 #   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }

@@ -17,7 +17,6 @@ module Api
     end
 
     desc 'GET	/tasks display a list of all task elements'
-    # TODO: rewrite client to handle the querying
     get '/tasks' do
       @current_user.tasks
     end
@@ -49,7 +48,6 @@ module Api
       requires :name
     end
     desc 'PATCH/PUT	/tasks/:id	tasks#update	update a specific task'
-    # TODO: check(now in task daily) should be an own endpoint on client
     put '/tasks/:id' do
       task = @current_user.tasks.find params[:id]
       task.name = params[:name]

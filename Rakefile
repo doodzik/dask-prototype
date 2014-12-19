@@ -9,5 +9,4 @@ RSpec::Core::RakeTask.new(:spec) do |t|
 end
 Reek::Rake::Task.new(:reek)
 
-# TODO: add reek
 task default: [:spec, :rubocop, :reek]
