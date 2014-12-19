@@ -22,7 +22,7 @@ describe Api::User do
   describe 'post /user' do
     it 'successful' do
       user_new = instance_double('User', save: true, email: 'correct')
-      allow(Mongodb::User).to receive(:extendet_new).and_return(user_new)
+      allow(Mongodb::User).to receive(:extended_new).and_return(user_new)
       post '/users', password: 'afsdfasg', email: 'hi@test.de'
       expect(last_response.body)
         .to eql({ email: user_new.email }.to_json)
@@ -30,7 +30,7 @@ describe Api::User do
 
     it 'fails with wrong data' do
       user_new = instance_double('User', save: false)
-      allow(Mongodb::User).to receive(:extendet_new).and_return(user_new)
+      allow(Mongodb::User).to receive(:extended_new).and_return(user_new)
       post '/users', password: 'afsdfasg', email: 'hi@test.de'
       expect(last_response.body).to eql({ error: 'check your data' }.to_json)
     end

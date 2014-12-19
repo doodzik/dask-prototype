@@ -8,7 +8,7 @@ describe Mongodb do
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).case_insensitive }
 
-    it '.extendet_new' do
+    it '.extended_new' do
       user = instance_double('User')
       allow(described_class).to receive(:new)
         .with(email: 'email').and_return(user)
@@ -16,7 +16,7 @@ describe Mongodb do
       allow(Auth).to receive(:generate_unique_user_token)
         .and_return('generated')
       allow(user).to receive(:token=).with('generated')
-      expect(described_class.extendet_new(email: 'email', pw: 'password'))
+      expect(described_class.extended_new(email: 'email', pw: 'password'))
         .to eql(user)
     end
 

@@ -1,7 +1,6 @@
 require 'grape'
 require 'helpers_api'
 
-# top comment
 module Api
   # top comment
   class TaskDaily < Grape::API
@@ -19,7 +18,7 @@ module Api
       requires :id
       requires :time, type: Integer
     end
-    desc 'POST	/tasks	taskDaily#create	'
+    desc 'POST /tasks taskDaily#create '
     post '/tasks' do
       task = @current_user.tasks.find params[:id]
       task.check(params[:time])

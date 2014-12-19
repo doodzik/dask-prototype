@@ -7,12 +7,12 @@ require 'grape'
 require 'rack/cors'
 require 'main' # require api
 
-# setup mongoid
-
-# top comment
 module Mongoid
-  # top comment
+  # reopens Document
   module Document
+    # if document is converted into a json the id is converted to a string
+    #   so that the client can use it.
+    #   the id field specificly selected for ember-data
     def as_json(options = {})
       attrs = super(options)
       attrs['id'] = attrs['_id'].to_s

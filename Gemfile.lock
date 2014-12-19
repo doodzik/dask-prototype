@@ -164,21 +164,20 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   byebug
-  did_you_mean (~> 0.9)
-  grape (~> 0.8.0)
+  did_you_mean
+  grape
   guard
-  guard-bundler (~> 1.0)
+  guard-bundler
   guard-rspec
-  json
-  mongoid (~> 4.0.0)
-  mongoid-rspec (~> 2.0.0.rc1)
-  rack (~> 1.4.1)
-  rack-cors (~> 0.2.8)
-  rack-test (~> 0.6.2)
+  mongoid
+  mongoid-rspec
+  rack
+  rack-cors
+  rack-test
   rake
   reek
   rspec
-  rubocop (= 0.24.1)
+  rubocop
   rubocop-rspec
   simplecov
   yard

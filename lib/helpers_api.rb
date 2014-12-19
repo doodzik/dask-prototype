@@ -1,7 +1,6 @@
 require 'user_mongoid'
 require 'grape/validations'
 
-# help methods for grape api
 module Api
   # helper methods for grape
   module Helpers

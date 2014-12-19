@@ -1,6 +1,5 @@
 require 'mongoid'
 
-# top comment
 module Mongodb
   # top comment
   class Task
@@ -13,6 +12,7 @@ module Mongodb
     validates_length_of :name, within: 1..140
 
     field :name
+    # Time.at(0) (timestamp-epoch) is a unchecked checked
     field :checked, type: Time, default: Time.at(0)
     field :days, type: Array, default: []
 

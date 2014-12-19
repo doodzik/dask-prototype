@@ -2,7 +2,6 @@ require 'grape'
 require 'helpers_api'
 require 'user_mongoid'
 
-# top comment
 module Api
   # top comment
   class User < Grape::API
@@ -15,7 +14,7 @@ module Api
       error!('401 Unauthorized', 401) unless @current_user
     end
 
-    desc 'GET	/users/:id	users#show	display a specific user'
+    desc 'GET /users/:id users#show display a specific user'
     params do
       requires :id
     end
@@ -27,9 +26,9 @@ module Api
       requires :email, regexp: /.+@.+/
       requires :password, within: 6..32
     end
-    desc 'POST	/users	users#create	create a new user'
+    desc 'POST /users users#create create a new user'
     post '/users' do
-      user = Mongodb::User.extendet_new(
+      user = Mongodb::User.extended_new(
         email: params[:email],
         pw: params[:password]
       )
@@ -40,7 +39,7 @@ module Api
       requires :email, regexp: /.+@.+/
       requires :password, within: 6..32
     end
-    desc 'PATCH/PUT	/users/:id	users#update	update a specific user'
+    desc 'PATCH/PUT /users/:id users#update update a specific user'
     put '/users/:id' do
       if @current_user.compare_password(params[:password])
         @current_user.email = params[:email]

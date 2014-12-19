@@ -4,7 +4,7 @@ require 'task_api'
 require 'task_daily_api'
 
 module Main
-  # main api
+  # main api is invoked by config.ru
   class Api < Grape::API
     format :json
 
