@@ -15,12 +15,12 @@ group :development do
   gem 'rake'
   gem 'guard'
   gem 'guard-bundler', '~> 1.0.0'
-  # gem 'guard-rack'
   gem 'guard-rspec'
   gem 'rubocop', '0.24.1'
   gem 'rubocop-rspec'
   gem 'reek'
-  # gem 'byebug'
+  gem 'did_you_mean'
+  gem 'byebug'
 end
 
 group :test do
@@ -28,10 +28,7 @@ group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'capybara', '2.1.0'
   gem 'selenium-webdriver', '2.32.1'
-  # TODO: implement
   gem 'simplecov', require: false
   gem 'mutant-rspec'
   gem 'mutant'
 end
-
-# gem 'did_you_mean', group: [:development, :test]
