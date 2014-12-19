@@ -13,7 +13,8 @@ describe Mongodb do
       allow(described_class).to receive(:new)
         .with(email: 'email').and_return(user)
       allow(user).to receive(:password=).with('password')
-      allow(described_class).to receive(:generate_token).and_return('generated')
+      allow(Auth).to receive(:generate_unique_user_token)
+        .and_return('generated')
       allow(user).to receive(:token=).with('generated')
       expect(described_class.extendet_new(email: 'email', pw: 'password'))
         .to eql(user)
@@ -82,16 +83,9 @@ describe Mongodb do
         allow(user).to receive(:token=).with('token')
         allow(described_class).to receive(:find_by)
           .with(email: 'email').and_return(user)
-        allow(described_class).to receive(:generate_token).and_return('token')
+        allow(Auth).to receive(:generate_unique_user_token).and_return('token')
         expect(described_class.login('email', 'pw')).to eql(user)
       end
-    end
-
-    it '.generate_token' do
-      allow(Auth).to receive(:generate_unique_token)
-        .and_yield('value').and_return('valueX')
-      allow(described_class).to receive(:find_by).with(token: 'value')
-      expect(described_class.generate_token).to eql('valueX')
     end
 
     it '#to_bearer' do

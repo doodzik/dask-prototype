@@ -24,6 +24,12 @@ module Auth
       end
     end
 
+    def generate_unique_user_token
+      generate_unique_token do |token|
+        Mongodb::User.find_by token: token
+      end
+    end
+
     private
 
     def generate_token

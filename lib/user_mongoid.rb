@@ -23,7 +23,7 @@ module Mongodb
     def self.extendet_new(email:, pw:)
       usr = new email: email
       usr.password = pw
-      usr.token = generate_token
+      usr.token = Auth.generate_unique_user_token
       usr
     end
 
@@ -36,8 +36,7 @@ module Mongodb
     end
 
     def password=(new_password)
-      @password = Password.create(new_password)
-      self.password_hash = @password
+      self.password_hash = @password = Password.create(new_password)
     end
 
     def compare_password(password_to_compare)
@@ -51,16 +50,10 @@ module Mongodb
     def self.login(email, password)
       user = find_by(email: email)
       if user.compare_password(password)
-        user.token = generate_token
+        user.token = Auth.generate_unique_user_token
         user
       else
         NullUser.new
-      end
-    end
-
-    def self.generate_token
-      Auth.generate_unique_token do |token|
-        Mongodb::User.find_by token: token
       end
     end
 
