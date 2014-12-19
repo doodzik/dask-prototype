@@ -20,7 +20,7 @@ describe Mongodb do
         .to eql(user)
     end
 
-    context '.current' do
+    describe '.current' do
       it 'fails' do
         allow(described_class).to receive(:find_by)
           .with(token: 'token').and_return(false)
@@ -70,7 +70,7 @@ describe Mongodb do
       user.authenticated?('given_token')
     end
 
-    context '.login' do
+    describe '.login' do
       it 'fails' do
         user = instance_double('User', compare_password: false)
         allow(described_class).to receive(:find_by)

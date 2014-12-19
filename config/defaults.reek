@@ -1,11 +1,3 @@
-FeatureEnvy:
-  exclude:
-    - "Api::Helpers#authenticate!"
-
-UtilityFunction:
-  exclude:
-    - "Api::Helpers#authenticate!"
-
 PrimaDonnaMethod:
   exclude:
     - "Api::Within"
@@ -17,3 +9,11 @@ ControlParameter:
 TooManyStatements:
   exclude:
     - "String#equal_by_bytes?"
+
+FeatureEnvy:
+  exclude:
+    - "Api::Helpers#authenticate!"
+
+UtilityFunction:
+  exclude:
+    - "Api::Helpers#authenticate!"

@@ -11,14 +11,16 @@ describe Api::Helpers do
         .with('token').and_return(user)
     end
 
-    it 'succeeds' do
-      auth.and_return(true)
-      expect(helper.authenticate!('token')).to eq(user)
-    end
+    describe '.authenticate!' do
+      it 'succeeds' do
+        auth.and_return(true)
+        expect(helper.authenticate!('token')).to eq(user)
+      end
 
-    it 'fails' do
-      auth.and_return(false)
-      expect(helper.authenticate!('token')).to eq(false)
+      it 'fails' do
+        auth.and_return(false)
+        expect(helper.authenticate!('token')).to eq(false)
+      end
     end
   end
 end

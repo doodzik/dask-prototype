@@ -19,19 +19,21 @@ describe Api::User do
     expect(last_response.body).to eq(user.to_json)
   end
 
-  it 'post /user successful' do
-    user_new = instance_double('User', save: true, email: 'correct')
-    allow(Mongodb::User).to receive(:extendet_new).and_return(user_new)
-    post '/users', password: 'afsdfasg', email: 'hi@test.de'
-    expect(last_response.body)
-      .to eql({ email: user_new.email }.to_json)
-  end
+  describe 'post /user' do
+    it 'successful' do
+      user_new = instance_double('User', save: true, email: 'correct')
+      allow(Mongodb::User).to receive(:extendet_new).and_return(user_new)
+      post '/users', password: 'afsdfasg', email: 'hi@test.de'
+      expect(last_response.body)
+        .to eql({ email: user_new.email }.to_json)
+    end
 
-  it 'post /user unsuccessful' do
-    user_new = instance_double('User', save: false)
-    allow(Mongodb::User).to receive(:extendet_new).and_return(user_new)
-    post '/users', password: 'afsdfasg', email: 'hi@test.de'
-    expect(last_response.body).to eql({ error: 'check your data' }.to_json)
+    it 'fails with wrong data' do
+      user_new = instance_double('User', save: false)
+      allow(Mongodb::User).to receive(:extendet_new).and_return(user_new)
+      post '/users', password: 'afsdfasg', email: 'hi@test.de'
+      expect(last_response.body).to eql({ error: 'check your data' }.to_json)
+    end
   end
 
   it 'put /users/:id' do
