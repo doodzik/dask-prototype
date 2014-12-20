@@ -1,12 +1,14 @@
-$LOAD_PATH.unshift(File.join("#{File.dirname(__FILE__)}/..", 'lib'))
+# require 'simplecov'
 
-=begin
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'app'))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'config'))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'spec'))
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-=end
+# SimpleCov.start do
+#   add_group 'Models', '\w*_mongoid'
+#   add_group 'Api', '\w*_api'
+# end
+
+# SimpleCov.minimum_coverage 99
+# SimpleCov.refuse_coverage_drop
+
+$LOAD_PATH.unshift(File.join("#{File.dirname(__FILE__)}/..", 'lib'))
 
 require 'rspec'
 

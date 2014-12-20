@@ -1,3 +1,4 @@
+require 'support'
 require 'mongoid'
 require 'mongoid-rspec'
 
@@ -13,9 +14,8 @@ module Mongoid
   end
 end
 
-#Mongoid.load!("#{ENV['BASEDIR']}/contracts/mongoid.yml")
-
+# Mongoid.load!("#{ENV['BASEDIR']}/contracts/mongoid.yml")
 
 RSpec.configure do |config|
-  config.include Mongoid::Matchers#, type: :model
+  config.include Mongoid::Matchers # , type: :model
 end

@@ -1,0 +1,19 @@
+PrimaDonnaMethod:
+  exclude:
+    - "Api::Within"
+
+ControlParameter:
+  exclude:
+    - "Mongodb::User#self.current"
+
+TooManyStatements:
+  exclude:
+    - "String#equal_by_bytes?"
+
+FeatureEnvy:
+  exclude:
+    - "Api::Helpers#authenticate!"
+
+UtilityFunction:
+  exclude:
+    - "Api::Helpers#authenticate!"
