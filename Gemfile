@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+ruby '2.1.5'
+
 gem 'rack'
 gem 'rack-cors'
 gem 'grape'
@@ -19,7 +21,7 @@ end
 
 group :test do
   gem 'rspec'
-  gem 'mongoid-rspec'
+  gem 'mongoid-rspec', '~> 2.0.0.rc1'
   gem 'rack-test'
   gem 'simplecov', require: false
 end

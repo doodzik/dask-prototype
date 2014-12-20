@@ -11,7 +11,7 @@ module Api
   end
 
   # grape param validator which checks if param.length is within a range
-  class Within < Grape::Validations::SingleOptionValidator
+  class Within < Grape::Validations::Base
     def validate_param!(attr_name, params)
       return true if @option.member?(params[attr_name].length)
       fail Grape::Exceptions::Validation,

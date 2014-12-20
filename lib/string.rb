@@ -1,7 +1,5 @@
 # extends String class with stricter compare methods for auth
 class String
-  BLANK_RE = /\A[[:space:]]*\z/
-
   # A string is blank if it's empty or contains whitespaces only:
   #
   #   ''.blank?       # => true
@@ -15,7 +13,7 @@ class String
   #
   # @return [true, false]
   def blank?
-    BLANK_RE === self
+    /\A[[:space:]]*\z/ === self
   end
 
   # calls not on blank?

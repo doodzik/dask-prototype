@@ -1,5 +1,5 @@
+# Singelton class
 module Auth
-  # Singelton class
   class << self
     # generates tokens until yield returns false
     #   then it returns the given token
