@@ -32,4 +32,4 @@ use Rack::Cors do
 end
 
 
-run Main::Api
+run Main::API

@@ -5,7 +5,7 @@ require 'task_daily_api'
 
 module Main
   # main api is invoked by config.ru
-  class Api < Grape::API
+  class API < Grape::API
     format :json
 
     mount Auth::Api
