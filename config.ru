@@ -6,6 +6,7 @@ require 'mongoid'
 require 'grape'
 require 'rack/cors'
 require 'main' # require api
+require 'rack/contrib'
 
 module Mongoid
   # reopens Document
@@ -31,5 +32,8 @@ use Rack::Cors do
   end
 end
 
+use Rack::TryStatic,
+  :root => File.expand_path('../public', __FILE__),
+  :urls => %w[/], :try => ['.html', 'index.html', '/index.html']
 
 run Main::API

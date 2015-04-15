@@ -19,7 +19,7 @@ module Api
       requires :time, type: Integer
     end
     desc 'POST /tasks taskDaily#create '
-    post '/tasks' do
+    post '/tasks/daily' do
       task = @current_user.tasks.find params[:id]
       task.check(params[:time])
       task.save
@@ -28,7 +28,7 @@ module Api
     params do
       requires :id
     end
-    delete '/tasks/:id' do
+    delete '/tasks/daily/:id' do
       task = @current_user.tasks.find params[:id]
       task.uncheck
       task.save

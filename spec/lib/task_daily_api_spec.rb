@@ -18,15 +18,15 @@ describe Api::TaskDaily do
     described_class.new
   end
 
-  it 'post /tasks' do
+  it 'post /tasks/daily' do
     allow(task).to receive(:check).with(123)
-    post '/tasks', time: 123, id: 123
+    post '/tasks/daily', time: 123, id: 123
     expect(last_response.body).to eql('saved'.to_json)
   end
 
-  it 'delete /tasks/:id' do
+  it 'delete /tasks/daily/:id' do
     allow(task).to receive(:uncheck)
-    delete '/tasks/5'
+    delete '/tasks/daily/5'
     expect(last_response.body).to eql('saved'.to_json)
   end
 end

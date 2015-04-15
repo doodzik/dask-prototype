@@ -7,6 +7,7 @@ gem 'rack-cors'
 gem 'grape'
 gem 'mongoid'
 gem 'bcrypt'
+gem 'rack-contrib'
 
 group :development do
   gem 'rake'

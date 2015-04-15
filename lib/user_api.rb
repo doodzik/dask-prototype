@@ -42,8 +42,11 @@ module Api
     desc 'PATCH/PUT /users/:id users#update update a specific user'
     put '/users/:id' do
       if @current_user.compare_password(params[:password])
+        # TODO: password patch
         @current_user.email = params[:email]
         @current_user.save
+      else
+        error!
       end
     end
   end
