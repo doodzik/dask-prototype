@@ -1,8 +1,35 @@
 body {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
   padding-top: 50px;
 }
+
+a {
+  color: #2D2D2D;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #33C3F0;
+}
+
+.error {
+  font-weight: bold;
+  color: red;
+  font-style: italic;
+  padding-bottom: 10;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+/* NAV */
 
 nav {
   position: fixed;
@@ -13,7 +40,7 @@ nav {
 }
 
 nav ul {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -22,19 +49,13 @@ nav li {
   margin: 5px;
 }
 
-nav a {
-  color: #2D2D2D;
-  text-decoration: none;
-  font-weight: bold;
+/* DASK-NAV */
+
+.dask-nav {
+  display: flex;
 }
 
-nav a:hover {
-  color: #33C3F0;
-}
-
-.error {
-  font-weight: bold;
-  color: red;
-  font-style: italic;
-  padding-bottom: 10;
+.dask-nav li {
+  float: left;
+  margin: 5px;
 }

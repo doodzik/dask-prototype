@@ -106,12 +106,8 @@ var needsAuth = require("./auth.jsx").needsAuth;
 var AuthStore = require("./store.js").AuthStore;
 
 
-var Router = require("react-router");
-var Route = Router.Route,
-    DefaultRoute = Router.DefaultRoute,
-    Link = Router.Link,
-    RouteHandler = Router.RouteHandler;
-
+var Router = require("react-router"),
+    Link = Router.Link;
 
 var DaskIndex = exports.DaskIndex = React.createClass(R.merge(needsAuth, {
   getInitialState: function () {
@@ -132,6 +128,110 @@ var DaskIndex = exports.DaskIndex = React.createClass(R.merge(needsAuth, {
         "h2",
         null,
         "Dasks"
+      ),
+      React.createElement(
+        "ul",
+        { className: "dask-nav" },
+        React.createElement(
+          "li",
+          null,
+          React.createElement(
+            Link,
+            { to: "task/create" },
+            "Create Task"
+          )
+        ),
+        React.createElement(
+          "li",
+          null,
+          React.createElement(
+            Link,
+            { to: "tasks" },
+            "Tasks"
+          )
+        ),
+        React.createElement(
+          "li",
+          null,
+          React.createElement(
+            Link,
+            { to: "dasks/all" },
+            "All Dasks"
+          )
+        )
+      ),
+      React.createElement(
+        "ul",
+        null,
+        this.state.tasks.length == 0 ? React.createElement(
+          "li",
+          null,
+          "no more tasks"
+        ) : this.state.tasks.map(function (task, i) {
+          return React.createElement(
+            "li",
+            { key: i },
+            React.createElement("input", { type: "checkbox", onClick: R.curry(_this.check)(task, i) }),
+            React.createElement(
+              Link,
+              { to: "task/:id/edit", params: task },
+              task.name
+            )
+          );
+        })
+      )
+    );
+  }
+}));
+
+var DaskAll = exports.DaskAll = React.createClass(R.merge(needsAuth, {
+  getInitialState: function () {
+    return { tasks: [{ id: "fd", name: "fds" }] };
+  },
+  check: function (task, index, e) {
+    var checked = e.target.checked;
+    if (checked) {} else {}
+  },
+  render: function () {
+    var _this = this;
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "h2",
+        null,
+        "All Dasks"
+      ),
+      React.createElement(
+        "ul",
+        { className: "dask-nav" },
+        React.createElement(
+          "li",
+          null,
+          React.createElement(
+            Link,
+            { to: "dasks" },
+            "Dasks"
+          )
+        ),
+        React.createElement(
+          "li",
+          null,
+          React.createElement(
+            Link,
+            { to: "task/create" },
+            "Create Task"
+          )
+        ),
+        React.createElement(
+          "li",
+          null,
+          React.createElement(
+            Link,
+            { to: "tasks" },
+            "Tasks"
+          )
+        )
       ),
       React.createElement(
         "ul",
@@ -160,6 +260,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+//TODO: call server
+//TODO: call server
+
 },{"./auth.jsx":2,"./store.js":6,"ramda":9,"react":199,"react-router":19}],4:[function(require,module,exports){
 "use strict";
 
@@ -184,6 +287,7 @@ var Router = require("react-router");
 var Route = Router.Route,
     DefaultRoute = Router.DefaultRoute,
     Link = Router.Link,
+    NotFoundRoute = Router.NotFoundRoute,
     RouteHandler = Router.RouteHandler;
 
 var AuthCreate = require("./auth.jsx").AuthCreate;
@@ -191,7 +295,10 @@ var _userJsx = require("./user.jsx");
 
 var UserCreate = _userJsx.UserCreate;
 var UserEdit = _userJsx.UserEdit;
-var DaskIndex = require("./dask.jsx").DaskIndex;
+var _daskJsx = require("./dask.jsx");
+
+var DaskIndex = _daskJsx.DaskIndex;
+var DaskAll = _daskJsx.DaskAll;
 var _taskJsx = require("./task.jsx");
 
 var TaskIndex = _taskJsx.TaskIndex;
@@ -323,17 +430,19 @@ var routes = exports.routes = React.createElement(
   React.createElement(Route, { name: "login", handler: AuthCreate }),
   React.createElement(Route, { name: "register", handler: UserCreate }),
   React.createElement(Route, { name: "dasks", handler: DaskIndex }),
+  React.createElement(Route, { name: "dasks/all", handler: DaskAll }),
   React.createElement(Route, { name: "tasks", handler: TaskIndex }),
   React.createElement(Route, { name: "task/create", handler: TaskCreate }),
   React.createElement(Route, { name: "task/:id/edit", handler: TaskEdit }),
   React.createElement(Route, { name: "user/edit", handler: UserEdit }),
-  React.createElement(Route, { name: "about", handler: About })
+  React.createElement(Route, { name: "about", handler: About }),
+  React.createElement(NotFoundRoute, { handler: IndexRoute })
 );
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-/* this is the important part */ /* <NotFoundRoute handler={IndexRoute}/> */
+/* this is the important part */
 
 },{"./about.jsx":1,"./auth.jsx":2,"./dask.jsx":3,"./store.js":6,"./task.jsx":7,"./user.jsx":8,"react":199,"react-router":19}],6:[function(require,module,exports){
 "use strict";
@@ -383,6 +492,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var React = require("react");
 var R = require("ramda");
+var Router = require("react-router"),
+    Link = Router.Link;
 var needsAuth = require("./auth.jsx").needsAuth;
 var _storeJs = require("./store.js");
 
@@ -390,16 +501,47 @@ var AuthStore = _storeJs.AuthStore;
 var UserStore = _storeJs.UserStore;
 var TaskIndex = exports.TaskIndex = React.createClass(R.merge(needsAuth, {
   getInitialState: function () {
-    return { error: { email: "", password: "" } };
+    return { tasks: [{ id: "fd", name: "fds" }] };
+  },
+  destroy: function (task, index, e) {
+    var newData = this.state.tasks.slice(); //copy array
+    newData.splice(index, 1); //remove element
+    this.setState({ tasks: newData }); //update state
+    //TODO: call server
   },
   render: function () {
+    var _this = this;
     return React.createElement(
       "div",
       null,
       React.createElement(
         "h2",
         null,
-        "Dasks"
+        "Tasks"
+      ),
+      React.createElement(
+        "ul",
+        null,
+        this.state.tasks.length == 0 ? React.createElement(
+          "li",
+          null,
+          "no tasks"
+        ) : this.state.tasks.map(function (task, i) {
+          return React.createElement(
+            "li",
+            { key: i },
+            React.createElement(
+              Link,
+              { to: "task/:id/edit", params: task },
+              task.name
+            ),
+            React.createElement(
+              "span",
+              { className: "right", onClick: R.curry(_this.destroy)(task, i) },
+              "delete"
+            )
+          );
+        })
       )
     );
   }
@@ -416,7 +558,7 @@ var TaskCreate = exports.TaskCreate = React.createClass(R.merge(needsAuth, {
       React.createElement(
         "h2",
         null,
-        "Dasks"
+        "Create Task"
       )
     );
   }
@@ -442,7 +584,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-},{"./auth.jsx":2,"./store.js":6,"ramda":9,"react":199}],8:[function(require,module,exports){
+},{"./auth.jsx":2,"./store.js":6,"ramda":9,"react":199,"react-router":19}],8:[function(require,module,exports){
 "use strict";
 
 var React = require("react");

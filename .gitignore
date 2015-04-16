@@ -3,3 +3,4 @@ DS_store
 *.swp
 .idea/*
 coverage/*
+public/main.js

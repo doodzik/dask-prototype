@@ -1,15 +1,16 @@
-var React        = require("react");
-var Router       = require("react-router");
-var Route        = Router.Route,
-    DefaultRoute = Router.DefaultRoute,
-    Link         = Router.Link,
-    RouteHandler = Router.RouteHandler;
+var React            = require("react");
+var Router           = require("react-router");
+var Route            = Router.Route,
+    DefaultRoute     = Router.DefaultRoute,
+    Link             = Router.Link,
+    NotFoundRoute    = Router.NotFoundRoute,
+    RouteHandler     = Router.RouteHandler;
 
-import { AuthCreate }               from './auth.jsx';
-import { UserCreate, UserEdit} from './user.jsx';
-import { DaskIndex }           from './dask.jsx';
-import { TaskIndex, TaskEdit, TaskCreate } from './task.jsx';
-import { About }               from './about.jsx';
+import { AuthCreate }                       from './auth.jsx';
+import { UserCreate, UserEdit}              from './user.jsx';
+import { DaskIndex, DaskAll    }            from './dask.jsx';
+import { TaskIndex, TaskEdit,  TaskCreate } from './task.jsx';
+import { About }                            from './about.jsx';
 
 import { AuthStore }           from './store.js';
 
@@ -74,11 +75,12 @@ export var routes = (
       <Route name="login"  handler={AuthCreate}/>
       <Route name="register" handler={UserCreate}/>
       <Route name="dasks"  handler={DaskIndex}/>
+      <Route name="dasks/all"  handler={DaskAll}/>
       <Route name="tasks"  handler={TaskIndex}/>
       <Route name="task/create"  handler={TaskCreate}/>
       <Route name="task/:id/edit"  handler={TaskEdit}/>
       <Route name="user/edit"  handler={UserEdit}/>
       <Route name="about" handler={About}/>
-      { /* <NotFoundRoute handler={IndexRoute}/> */ }
+      <NotFoundRoute handler={IndexRoute}/>
     </Route>
 );

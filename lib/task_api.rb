@@ -17,6 +17,7 @@ module Api
 
     desc 'GET /tasks display a list of all task elements'
     get '/tasks' do
+      # TODO: 'join' with timestamp from TaskDaily
       @current_user.tasks
     end
 
