@@ -2,6 +2,7 @@ require 'mongoid'
 require 'auth'
 require 'bcrypt'
 require 'task_mongoid'
+require 'string'
 
 # top comment
 module Mongodb
@@ -71,7 +72,7 @@ module Mongodb
     # @todo refactor to Auth when splitting modules
     def self.login(email, password)
       user = find_by(email: email)
-      if user.compare_password(password)
+      if user && user.compare_password(password)
         user.token = Auth.generate_unique_user_token
         user
       else
@@ -93,7 +94,7 @@ module Mongodb
 
   # returns for each method call false
   class NullUser
-    def method_missing(_name)
+    def method_missing(_name, arg)
       false
     end
   end

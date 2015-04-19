@@ -10,9 +10,9 @@ module Auth
       requires :password, within: 6..32
     end
     desc 'autheticate a user with email and password'
-    post '/token' do
+    post '/auth' do
       user = Mongodb::User.login(params[:email], params[:password])
-      user.save ? user.to_bearer : error!('password or email was false')
+      user.save ? user.to_bearer : error!('password or email was false', 400)
     end
   end
 end

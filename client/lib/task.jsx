@@ -1,13 +1,20 @@
-var React = require("react");
-var R     = require('ramda');
+var Promise   = require("bluebird");
+var React        = require("react");
+var R            = require('ramda');
 var Router       = require("react-router"),
     Link         = Router.Link;
 import { needsAuth } from './auth.jsx';
-import { AuthStore, UserStore } from './store.js';
+import { AuthStore, UserStore, TaskStore } from './store.js';
 
 export var TaskIndex = React.createClass(R.merge(needsAuth, {
   getInitialState: function() {
-    return {tasks: [{id: 'fd', name: 'fds'}]};
+    return {tasks: []};
+  },
+  componentDidMount: function(){
+    let allTasks = Promise.promisify(TaskStore.all);
+    allTasks().then((tasks) => {
+      this.setState({tasks: tasks});
+    });
   },
   destroy: function(task, index, e){
     var newData = this.state.tasks.slice(); //copy array
@@ -27,14 +34,79 @@ export var TaskIndex = React.createClass(R.merge(needsAuth, {
   }
 }));
 
+// Days name
 export var TaskCreate = React.createClass(R.merge(needsAuth, {
-    getInitialState: function() {
-      return {error: {email: '', password: ''}};
-    },
+  getInitialState: function() {
+    return {error: '', sun: true, mon: true, tue: true, wed: true, thu: true, fri: true, sam: true };
+  },
+  create: function(e){
+    e.preventDefault();
+    let name = this.refs.name.getDOMNode().value;
+    let days = [ this.state.sun, this.state.mon, this.state.tue, this.state.wed, this.state.thu, this.state.fri, this.state.sam];   
+    let convertDays =  days.map((day, i) => { return((day) ? i : day) });
+    let selectedDays = R.reject((x) => { return x === false }, convertDays);
+    
+    let errorMsg = TaskStore.create(name, selectedDays);
+    if(errorMsg.length > 0 ){
+      this.setState({error: errorMsg});
+    } else {
+      window.location.assign('/');
+    }
+    
+  },
+  check: function(day, e){
+    let checked = this.refs[day].getDOMNode().checked;
+    let obj = {};
+    obj[day] = checked;
+    this.setState(obj);
+  },
   render: function() {
     return (
       <div>
         <h2>Create Task</h2>
+        <form>
+          <label htmlFor="TaskInput">Task Name:</label>
+          <input className="u-full-width" ref="name" type="text" />
+          { /* (this.state.error.email) ? <div className="error">{this.state.error.email}</div> : null */ }
+
+          <label htmlFor="TaskFilterInput">Filter</label>
+
+          <label htmlFor="TaskFilterDaysInput">Days:</label>
+
+          { /* TODO make checked as default */ }
+          <ul className="days-selector">
+            <li>
+              <label htmlFor="days">Sun</label>
+              <input ref="sun" type="checkbox" value="0" checked={this.state.sun} onChange={R.curry(this.check)('sun')}/>
+            </li>
+            <li>
+              <label htmlFor="days">Mon</label>
+              <input ref="mon" type="checkbox" value="1" checked={this.state.mon} onChange={R.curry(this.check)('mon')}/>
+            </li>
+            <li>
+              <label htmlFor="days">Tue</label>
+              <input ref="tue" type="checkbox" value="2" checked={this.state.tue} onChange={R.curry(this.check)('tue')}/>
+            </li>
+            <li>
+              <label htmlFor="days">Wed</label>
+              <input ref="wed" type="checkbox" value="3" checked={this.state.wed} onChange={R.curry(this.check)('wed')}/>
+            </li>
+            <li>
+              <label htmlFor="days">Thu</label>
+              <input ref="thu" type="checkbox" value="4" checked={this.state.thu} onChange={R.curry(this.check)('thu')}/>
+            </li>
+            <li>
+              <label htmlFor="days">Fri</label>
+              <input ref="fri" type="checkbox" value="5" checked={this.state.fri} onChange={R.curry(this.check)('fri')}/>
+            </li>
+            <li>
+              <label htmlFor="days">Sam</label>
+              <input ref="sam" type="checkbox" value="6" checked={this.state.sam} onChange={R.curry(this.check)('sam')}/>
+            </li>
+          </ul>
+
+          <input className="button-primary" type="submit" value="create" onClick={this.create}/>
+        </form>
       </div>
     );
   }

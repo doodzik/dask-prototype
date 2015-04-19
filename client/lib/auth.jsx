@@ -30,13 +30,13 @@ export var AuthCreate = React.createClass(R.merge(needsDeauth, {
     e.preventDefault();
     let email = this.refs.email.getDOMNode().value;
     let password = this.refs.password.getDOMNode().value;
-    let errorMsg = AuthStore.create(email, password);
-    console.log(errorMsg);
-    if(errorMsg){
-      this.setState({error: errorMsg});
-    } else {
-      window.location.assign('/');
-    }
+    AuthStore.create(email, password, (errorMsg) => {
+      if(errorMsg){
+        this.setState({error: errorMsg});
+      } else {
+        window.location.assign('/');
+      }
+    })
   },
   render: function() {
     return (

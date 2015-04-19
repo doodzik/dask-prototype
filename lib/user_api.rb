@@ -9,19 +9,6 @@ module Api
     format :json
     helpers Helpers
 
-    before do
-      @current_user = authenticate!(headers[:authentication])
-      error!('401 Unauthorized', 401) unless @current_user
-    end
-
-    desc 'GET /users/:id users#show display a specific user'
-    params do
-      requires :id
-    end
-    get '/users/:id' do
-      @current_user
-    end
-
     params do
       requires :email, regexp: /.+@.+/
       requires :password, within: 6..32
@@ -33,6 +20,19 @@ module Api
         pw: params[:password]
       )
       user.save ? { email: user.email } : error!('check your data')
+    end
+
+    before do
+      @current_user = authenticate!(headers[:authentication])
+      error!('401 Unauthorized', 401) unless @current_user
+    end
+
+    desc 'GET /users/:id users#show display a specific user'
+    params do
+      requires :id
+    end
+    get '/users/:id' do
+      @current_user
     end
 
     params do

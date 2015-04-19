@@ -11,7 +11,7 @@ module Api
     helpers Helpers
 
     before do
-      @current_user = authenticate!(headers[:authentication])
+      @current_user = authenticate!(headers['Authentication'])
       error!('401 Unauthorized', 401) unless @current_user
     end
 

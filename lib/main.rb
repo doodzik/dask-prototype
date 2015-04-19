@@ -8,9 +8,8 @@ module Main
   class API < Grape::API
     format :json
 
-    mount Auth::Api
-
     namespace 'api' do
+      mount Auth::Api
       mount Api::User
       mount Api::Task
       mount Api::TaskDaily

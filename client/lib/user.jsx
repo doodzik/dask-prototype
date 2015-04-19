@@ -11,13 +11,15 @@ getInitialState: function() {
     e.preventDefault();
     let email = this.refs.email.getDOMNode().value;
     let password = this.refs.password.getDOMNode().value;
-    let errorMsg = UserStore.create(email, password);
-    if(errorMsg.email.length > 0 || errorMsg.password.length > 0){
-      this.setState({error: errorMsg});
-    } else {
-      AuthStore.create(email, password);
-      window.location.assign('/');
-    }
+    UserStore.create(email, password, (errorMsg) => {
+      if(errorMsg.email.length > 0 || errorMsg.password.length > 0){
+        this.setState({error: errorMsg});
+      } else {
+        AuthStore.create(email, password, (errMsg) => {
+           window.location.assign('/');
+        });
+      }
+    });
   },
   render: function() {
     return (
