@@ -7,7 +7,8 @@ module Mongodb
 
     @weekdays = %w(sunday monday tuesday wednesday thursday friday saturday)
 
-    validates :days, inclusion: { in: [1..7] }
+    # TODO: day validation
+    # validates :days, inclusion: { in: [0..6] }
     validates :name, presence: true
     validates_length_of :name, within: 1..140
 

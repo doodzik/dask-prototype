@@ -6,6 +6,11 @@ import { routes } from './router.jsx';
 //     React.render(<Handler/>, document.body);
 // });
 
-Router.run(routes, function (Handler) {
-  React.render(<Handler/>, document.body);
+// Router.run(routes, function (Handler) {
+//   React.render(<Handler/>, document.body);
+// }); 
+
+Router.run(routes, function (Handler, state) {
+  var params = state.params;
+  React.render(<Handler params={params}/>, document.body);
 });

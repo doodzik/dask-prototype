@@ -63,7 +63,7 @@ var App = React.createClass({
           </nav>
           {/* this is the important part */}
 
-          <RouteHandler/>
+          <RouteHandler {...this.props}/>
         </div>
         );
   }

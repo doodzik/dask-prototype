@@ -23,30 +23,36 @@ module Api
     end
 
     before do
-      @current_user = authenticate!(headers[:authentication])
+      @current_user = authenticate!(headers['Authentication'])
       error!('401 Unauthorized', 401) unless @current_user
     end
 
-    desc 'GET /users/:id users#show display a specific user'
-    params do
-      requires :id
-    end
-    get '/users/:id' do
-      @current_user
+    desc 'GET /user users#show display a specific user'
+    get '/user' do
+      { email: @current_user.email }
     end
 
     params do
-      requires :email, regexp: /.+@.+/
-      requires :password, within: 6..32
+      requires :email,            regexp: /.+@.+/
+      requires :password_confirm, within: 6..130
     end
     desc 'PATCH/PUT /users/:id users#update update a specific user'
-    put '/users/:id' do
-      if @current_user.compare_password(params[:password])
+    put '/users' do
+      if @current_user.compare_password(params[:password_confirm])
         # TODO: password patch
-        @current_user.email = params[:email]
-        @current_user.save
+        if (6..130).include?(params[:password].length)
+          @current_user.password = params[:password]
+        end
+        if @current_user.email != params[:email]
+          @current_user.email = params[:email]
+        end
+        if @current_user.valid?
+          @current_user.save
+        else
+          error!({ passwordConfirm: 'email is already taken' }, 400)
+        end
       else
-        error!
+        error!({ passwordConfirm: 'password doesn\'t match' }, 400)
       end
     end
   end

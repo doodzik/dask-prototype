@@ -19,6 +19,7 @@ describe Api::TaskDaily do
   end
 
   it 'post /tasks/daily' do
+    pending
     allow(task).to receive(:check).with(123)
     post '/tasks/daily', time: 123, id: 123
     expect(last_response.body).to eql('saved'.to_json)

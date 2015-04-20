@@ -94,7 +94,7 @@ module Mongodb
 
   # returns for each method call false
   class NullUser
-    def method_missing(_name, arg)
+    def method_missing(_name, _arg)
       false
     end
   end
