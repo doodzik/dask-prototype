@@ -1,3 +1,4 @@
+var Promise = require("bluebird");
 var R         = require('ramda');
 var validator = require('validator');
 var request   = require('superagent');
@@ -9,7 +10,7 @@ export var UserStore = {
     return {email: vEmail, password: vPassword}
   },
   validatePassword: function(password){
-return validator.isLength(password, 6, 130) ? '': 'password has to be 6 char long';
+    return validator.isLength(password, 6, 130) ? '': 'password has to be 6 char long';
   },
   create: function(email, password, cb){
     let vObj = this.validate(email, password);
@@ -80,14 +81,35 @@ export var AuthStore = {
 };
 
 export var TaskStore = {
-  all: function(cb){
-    request.get('/api/tasks')
+  all: function(){
+    return new Promise(function (resolve) {
+      request.get('/api/tasks')
       .set('Authentication', localStorage.token)
       .end(function(err, res){
-        cb(err, res.body);
+        resolve(res.body);
       });
+    })
   },
-  validate: function(name,days){
+  validateInterval: function(startHour, startMinute, endHour, endMinute, interval){
+    var obj = { startHour: '', startMinute: '', endHour: '', endMinute: '', interval: ''};
+    if(startHour < 0 || startHour > 23) {
+      obj['startHour'] = 'start hour has to be between 0 and 23';
+    }
+    if(startMinute < 0 || startMinute > 59) {
+      obj['startMinute'] = 'start hour has to be between 0 and 23';
+    }
+    if(endHour < 0 || endHour > 23) {
+      obj['endHour'] = 'end hour has to be between 0 and 23';
+    }
+    if(endMinute < 0 || endMinute > 59) {
+      obj['endMinute'] = 'the end minute has to be between 0 and 59';
+    }
+    if(interval < 1 || interval > 99) {
+      obj['interval'] = 'interval has to be between 1 and 99';
+    }
+    return obj;
+  },
+  validate: function(name, days){
     let msg = validator.isLength(name, 1, 130) ? '': 'name has to be 1 char long';
     return msg;
   },
@@ -96,36 +118,48 @@ export var TaskStore = {
       .set('Authentication', localStorage.token)
       .end((err, res) => {})
   },
-  create: function(name, days){
+  createPromise: function(name, days, startHour, startMinute, endHour, endMinute, interval,intervalType, startDate){
+    return new Promise(function (resolve) {
+      request.post('/api/tasks')
+        .set('Authentication', localStorage.token)
+        .send({ name: name, days: days, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, interval: interval, intervalType: intervalType, startDate: startDate})
+        .end((err, res) => {
+          resolve(res.body);
+        });
+    });
+  },
+  create: function(name, days, startHour, startMinute, endHour, endMinute, interval,intervalType, startDate){
     request.post('/api/tasks')
       .set('Authentication', localStorage.token)
-      .send({ name: name, days: days })
+      .send({ name: name, days: days, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, interval: interval, intervalType: intervalType, startDate: startDate})
       .end((err, res) => {});
   },
-  put: function(id, name, selectedDays){
+  put: function(id, name, selectedDays, startHour, startMinute, endHour, endMinute, interval,intervalType, startDate){
     request.put('/api/tasks/'+id)
       .set('Authentication', localStorage.token)
-      .send({ name: name, days: selectedDays })
+      .send({ name: name, days: selectedDays, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, interval: interval, intervalType: intervalType, startDate: startDate})
       .end(function(err, res){
       });
   },
-  get: function(id, cb){
-    request.get('/api/tasks/'+id)
-      .set('Authentication', localStorage.token)
-      .end(function(err, res){
-        cb(err, res.body);
-      });
+  get: function(id){
+    return new Promise(function (resolve) {
+      request.get('/api/tasks/'+id)
+        .set('Authentication', localStorage.token)
+        .end(function(err, res){
+          resolve(res.body);
+        });
+    });
   }
 };
 export var DaskStore = {
-  check: function(id){
+  check: function(task){
     request.post('/api/tasks/daily')
       .set('Authentication', localStorage.token)
-      .send({ id: id })
+      .send({ id: task.id })
       .end((err, res) => {})
   },
-  uncheck: function(id){
-    request.del('/api/tasks/daily/'+id)
+  uncheck: function(task){
+    request.del('/api/tasks/daily/'+task.id)
       .set('authentication', localStorage.token)
       .end((err, res) => {})
   }

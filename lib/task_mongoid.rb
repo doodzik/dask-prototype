@@ -1,14 +1,15 @@
 require 'mongoid'
+require 'active_model'
 
 module Mongodb
   # top comment
   class Task
     include Mongoid::Document
+    include ActiveModel::Validations
 
     @weekdays = %w(sunday monday tuesday wednesday thursday friday saturday)
 
-    # TODO: day validation
-    # validates :days, inclusion: { in: [0..6] }
+    # validates days in api on post and put route
     validates :name, presence: true
     validates_length_of :name, within: 1..140
 
@@ -16,6 +17,15 @@ module Mongodb
     # Time.at(0) (timestamp-epoch) is a unchecked checked
     field :checked, type: Time, default: Time.at(0)
     field :days, type: Array, default: []
+
+    field :startHour,   type: Integer
+    field :startMinute, type: Integer
+    field :endHour,     type: Integer
+    field :endMinute,   type: Integer
+
+    field :interval,     type: Integer
+    field :intervalType, type: Integer
+    field :startDate,    type: String
 
     embedded_in :user
 

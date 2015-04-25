@@ -29,6 +29,10 @@ a:hover {
   float: right;
 }
 
+.button-clone {
+  margin-left: 10px;
+}
+
 /* NAV */
 
 nav {

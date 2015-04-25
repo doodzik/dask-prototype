@@ -191,6 +191,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activemodel
   bcrypt
   byebug
   did_you_mean

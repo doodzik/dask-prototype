@@ -35,8 +35,10 @@ var NavAuthed = React.createClass({
     return(
       <ul>
         <li><Link to="dasks">Dasks</Link></li>
+        <li><Link to='dasks/all'>All Dasks</Link></li>
+        <li><Link to='tasks'>Tasks</Link></li>
         <li><Link to="about">About</Link></li>
-        <li><Link to="user/edit">UserEdit</Link></li>
+        <li><Link to="user/edit">User Edit</Link></li>
         <li><Link to="/" onClick={this.deauth}>deauth</Link></li>
       </ul>
     )

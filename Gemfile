@@ -8,6 +8,7 @@ gem 'grape'
 gem 'mongoid'
 gem 'bcrypt'
 gem 'rack-contrib'
+gem 'activemodel'
 
 group :development do
   gem 'rake'
