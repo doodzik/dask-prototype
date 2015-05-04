@@ -22,6 +22,10 @@ var taskIsInterval = function(task) {
   return interval.matches(moment())
 }
 
+var taskOneTime = function(task) {
+  return !(task.onetime) || !(moment(task.checked).isAfter(moment(0)))
+}
+
 var taskIsToday = function(task) {
   return R.contains(moment().weekday())(task.days)
 }
@@ -73,6 +77,7 @@ export var DaskIndex = React.createClass(R.merge(needsAuth, {
     .filter(taskIsInterval)
     .filter(taskIsTime)
     .filter(isCheckedTask)
+    .filter(taskOneTime)
     .then(sortTasksTime)
     .then(tasks => this.setState({tasks: tasks}))
   },
@@ -84,11 +89,30 @@ export var DaskIndex = React.createClass(R.merge(needsAuth, {
     DaskStore.check(task);
     this.setState({tasks: newData}); //update state
   },
+  createOnetimeTask: function(){
+    let name = this.refs.onetimeTask.getDOMNode().value;
+    let days = [ 0,1,2,3,4,5,6 ];   
+    
+    TaskStore.createPromise(name, days,0,0,23,59,1,0 , moment(), true)
+    .then(task => {
+      this.refs.onetimeTask.getDOMNode().value = ''
+      TaskStore.all()
+      .filter(taskIsToday)
+      .filter(taskIsInterval)
+      .filter(taskIsTime)
+      .filter(isCheckedTask)
+      .filter(taskOneTime)
+      .then(sortTasksTime)
+      .then(tasks => this.setState({tasks: tasks}))
+    })
+  },
 
   render: function() {
     return (
       <div>
         <h2>Dasks</h2>
+          <input className="u-full-width" placeholder="onetime task" ref="onetimeTask" />
+          <input className="button-primary" type="button" value="create" onClick={this.createOnetimeTask} />
         <ul className="dask-nav">
           <li><Link to='task/create'>Create Task</Link></li>
         </ul>

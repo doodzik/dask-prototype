@@ -1,6 +1,8 @@
 require 'user_api'
 require 'auth_api'
 require 'task_api'
+require 'trigger_api'
+require 'trigger_task_api'
 require 'task_daily_api'
 
 module Main
@@ -12,6 +14,8 @@ module Main
       mount Auth::Api
       mount Api::User
       mount Api::Task
+      mount Api::Trigger
+      mount Api::TriggerTask
       mount Api::TaskDaily
     end
   end

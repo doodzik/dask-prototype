@@ -10,6 +10,7 @@ import { AuthCreate }                       from './auth.jsx';
 import { UserCreate, UserEdit}              from './user.jsx';
 import { DaskIndex, DaskAll    }            from './dask.jsx';
 import { TaskIndex, TaskEdit,  TaskCreate } from './task.jsx';
+import { TriggerIndex, TriggerShow }        from './trigger.jsx';
 import { About }                            from './about.jsx';
 
 import { AuthStore }           from './store.js';
@@ -36,6 +37,7 @@ var NavAuthed = React.createClass({
       <ul>
         <li><Link to="dasks">Dasks</Link></li>
         <li><Link to='dasks/all'>All Dasks</Link></li>
+        <li><Link to='triggers'>Triggers</Link></li>
         <li><Link to='tasks'>Tasks</Link></li>
         <li><Link to="about">About</Link></li>
         <li><Link to="user/edit">User Edit</Link></li>
@@ -81,6 +83,8 @@ export var routes = (
       <Route name="tasks"  handler={TaskIndex}/>
       <Route name="task/create"  handler={TaskCreate}/>
       <Route name="task/:id/edit"  handler={TaskEdit}/>
+      <Route name="triggers"  handler={TriggerIndex}/>
+      <Route name="triggers/:id"  handler={TriggerShow}/>
       <Route name="user/edit"  handler={UserEdit}/>
       <Route name="about" handler={About}/>
       <NotFoundRoute handler={IndexRoute}/>

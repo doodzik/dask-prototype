@@ -19,6 +19,7 @@ module Mongodb
     field :email
 
     embeds_many :tasks
+    embeds_many :triggers
 
     # extended_new assigns a unique token to self.token
     #   and assigns password

@@ -50,7 +50,7 @@ export var TaskIndex = React.createClass(R.merge(needsAuth, {
     return (
       <div>
         <h2>Tasks</h2>
-        <input placeholder="search" onChange={this.fuzzySearch} ref="fuzzySearch" />
+        <input className="u-full-width" placeholder="search" onChange={this.fuzzySearch} ref="fuzzySearch" />
         <ul>
           { this.state.tasks.length == 0 ? <li>no tasks</li> : this.state.tasks.map((task, i) => { return <li key={i}><Link to='task/:id/edit' params={task} >{task.name}</Link><span className="right" onClick={R.curry(this.destroy)(task, i)}>delete</span></li> })}
         </ul>
@@ -62,7 +62,7 @@ export var TaskIndex = React.createClass(R.merge(needsAuth, {
 // Days name
 export var TaskCreate = React.createClass(R.merge(needsAuth, {
   getInitialState: function() {
-    return {error: '', startDate: moment(), interval: 1, startMinute: 0, startHour: 0, endMinute: 59, endHour: 23, sun: true, mon: true, tue: true, wed: true, thu: true, fri: true, sam: true };
+    return {error: '', startDate: moment(), interval: 1, startMinute: 0, startHour: 0, endMinute: 59, endHour: 23, onetime: false, sun: true, mon: true, tue: true, wed: true, thu: true, fri: true, sam: true };
   },
 
   handleStartDateChange: function(date) {
@@ -88,6 +88,11 @@ export var TaskCreate = React.createClass(R.merge(needsAuth, {
     let endMinute = this.refs.endMinute.getDOMNode().value;
     this.setState({ endMinute: (parseInt(endMinute, 10)|| 0) });
   },
+  handleOnetime: function(){
+    let onetime = this.refs.onetime.getDOMNode().checked;
+    this.setState({ onetime: onetime });
+  },
+
 
   create: function(e){
     e.preventDefault();
@@ -110,7 +115,7 @@ export var TaskCreate = React.createClass(R.merge(needsAuth, {
     if(err.name.length > 0 || err.startHour.length > 0 || err.startMinute.length > 0 || err.endHour.length > 0 || err.endMinute.length > 0 || err.interval.length > 0) {
         this.setState({error: err})
     } else {
-      TaskStore.create(name, selectedDays, startHour, startMinute, endHour, endMinute, interval,intervalType, this.state.startDate);
+      TaskStore.create(name, selectedDays, startHour, startMinute, endHour, endMinute, interval,intervalType, this.state.startDate, this.state.onetime);
       window.location.assign('/');
     }
     
@@ -131,6 +136,9 @@ export var TaskCreate = React.createClass(R.merge(needsAuth, {
           { (this.state.error.name && this.state.error.name.length > 0) ? <div className="error">{this.state.error.name }</div> : null }
 
           <label htmlFor="TaskFilterInput">Filter</label>
+
+          <label>OneTime</label>
+          <input ref="onetime" type="checkbox" checked={this.state.onetime} onChange={this.handleOnetime}/>
 
           <label htmlFor="TaskFilterDaysInput">Days:</label>
 
@@ -209,7 +217,7 @@ export var TaskCreate = React.createClass(R.merge(needsAuth, {
 // Days name
 export var TaskEdit = React.createClass(R.merge(needsAuth, {
   getInitialState: function() {
-    return {error: {}, name: '', sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sam: false, startDate: moment(), interval: 1, intervalType: 0, startMinute: 0, startHour: 0, endMinute: 59, endHour: 23 };
+    return {error: {}, name: '', onetime: false, sun: false, mon: false, tue: false, wed: false, thu: false, fri: false, sam: false, startDate: moment(), interval: 1, intervalType: 0, startMinute: 0, startHour: 0, endMinute: 59, endHour: 23 };
   },
 
   handleStartDateChange: function(date) {
@@ -234,6 +242,10 @@ export var TaskEdit = React.createClass(R.merge(needsAuth, {
   handleEndMinute: function(){
     let endMinute = this.refs.endMinute.getDOMNode().value;
     this.setState({ endMinute: (parseInt(endMinute, 10)|| 0) });
+  },
+  handleOnetime: function(){
+    let onetime = this.refs.onetime.getDOMNode().checked;
+    this.setState({ onetime: onetime });
   },
 
   componentDidMount: function(){
@@ -278,7 +290,7 @@ export var TaskEdit = React.createClass(R.merge(needsAuth, {
     if(err.name.length > 0 || err.startHour.length > 0 || err.startMinute.length > 0 || err.endHour.length > 0 || err.endMinute.length > 0 || err.interval.length > 0) {
         this.setState({error: err});
     } else {
-      TaskStore.put(id, name, selectedDays, startHour, startMinute, endHour, endMinute, interval, intervalType, this.state.startDate);
+      TaskStore.put(id, name, selectedDays, startHour, startMinute, endHour, endMinute, interval, intervalType, this.state.startDate, this.state.onetime);
       window.location.assign('/');
     }
     
@@ -318,6 +330,12 @@ export var TaskEdit = React.createClass(R.merge(needsAuth, {
       })
     }
   },
+  destroy: function(e){
+    e.preventDefault();
+    let id = this.props.params.id ;
+    TaskStore.destroy(id);
+    window.location.assign('/');
+  },
   render: function() {
     return (
       <div>
@@ -328,6 +346,9 @@ export var TaskEdit = React.createClass(R.merge(needsAuth, {
           { (this.state.error.name && this.state.error.name.length > 0) ? <div className="error">{this.state.error.name }</div> : null }
 
           <label htmlFor="TaskFilterInput">Filter</label>
+
+          <label>OneTime</label>
+          <input ref="onetime" type="checkbox" checked={this.state.onetime} onChange={this.handleOnetime}/>
 
           <label htmlFor="TaskFilterDaysInput">Days:</label>
 
@@ -394,6 +415,7 @@ export var TaskEdit = React.createClass(R.merge(needsAuth, {
 
           <input className="button-primary" type="submit" value="edit" onClick={this.create}/>
           <input className="button-primary button-clone" type="submit" value="clone" onClick={this.duplicate}/>
+          <input className="button-primary button-clone" type="submit" value="delete" onClick={this.destroy}/>
         </form>
       </div>
     );

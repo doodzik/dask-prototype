@@ -118,26 +118,26 @@ export var TaskStore = {
       .set('Authentication', localStorage.token)
       .end((err, res) => {})
   },
-  createPromise: function(name, days, startHour, startMinute, endHour, endMinute, interval,intervalType, startDate){
+  createPromise: function(name, days, startHour, startMinute, endHour, endMinute, interval,intervalType, startDate, onetime){
     return new Promise(function (resolve) {
       request.post('/api/tasks')
         .set('Authentication', localStorage.token)
-        .send({ name: name, days: days, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, interval: interval, intervalType: intervalType, startDate: startDate})
+        .send({ name: name, days: days, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, interval: interval, intervalType: intervalType, startDate: startDate, onetime: onetime})
         .end((err, res) => {
           resolve(res.body);
         });
     });
   },
-  create: function(name, days, startHour, startMinute, endHour, endMinute, interval,intervalType, startDate){
+  create: function(name, days, startHour, startMinute, endHour, endMinute, interval,intervalType, startDate, onetime){
     request.post('/api/tasks')
       .set('Authentication', localStorage.token)
-      .send({ name: name, days: days, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, interval: interval, intervalType: intervalType, startDate: startDate})
+      .send({ name: name, days: days, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, interval: interval, intervalType: intervalType, startDate: startDate, onetime: onetime})
       .end((err, res) => {});
   },
-  put: function(id, name, selectedDays, startHour, startMinute, endHour, endMinute, interval,intervalType, startDate){
+  put: function(id, name, selectedDays, startHour, startMinute, endHour, endMinute, interval,intervalType, startDate, onetime){
     request.put('/api/tasks/'+id)
       .set('Authentication', localStorage.token)
-      .send({ name: name, days: selectedDays, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, interval: interval, intervalType: intervalType, startDate: startDate})
+      .send({ name: name, days: selectedDays, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, interval: interval, intervalType: intervalType, startDate: startDate, onetime: onetime})
       .end(function(err, res){
       });
   },
@@ -151,6 +151,7 @@ export var TaskStore = {
     });
   }
 };
+
 export var DaskStore = {
   check: function(task){
     request.post('/api/tasks/daily')
@@ -162,5 +163,75 @@ export var DaskStore = {
     request.del('/api/tasks/daily/'+task.id)
       .set('authentication', localStorage.token)
       .end((err, res) => {})
+  }
+};
+
+export var TriggerStore = {
+  v: [],
+  all: function(){
+    return new Promise(resolve => {
+      request.get('/api/triggers')
+        .set('authentication', localStorage.token)
+        .end((err, res) => {
+          resolve(res.body)
+        })
+    })
+  },
+  trigger: function(id) {
+    return new Promise(resolve => {
+      request.post('/api/trigger/'+id+'/trigger')
+        .set('authentication', localStorage.token)
+        .end((err, res) => {
+          resolve(res.body)
+        })
+    })
+  },
+  get: function(name){
+    return new Promise(resolve => {
+      request.get('/api/triggers/'+ name)
+        .set('authentication', localStorage.token)
+        .end((err, res) => {
+          resolve(res.body)
+        })
+    })
+  },
+  destroy: function(name){
+    return new Promise(resolve => {
+      request.del('/api/triggers/'+ name)
+        .set('authentication', localStorage.token)
+        .end((err, res) => {
+          resolve(res.body)
+        })
+    })
+  },
+  destroyTask: function(id, name){
+    return new Promise(resolve => {
+      request.del('/api/trigger/'+id + '/tasks')
+        .set('authentication', localStorage.token)
+        .send({ name: name })
+        .end((err, res) => {
+          resolve(res.body)
+        })
+    })
+  },
+  createTask: function(id, name){
+    return new Promise(resolve => {
+      request.post('/api/trigger/'+id+'/tasks')
+        .set('authentication', localStorage.token)
+        .send({ name: name })
+        .end((err, res) => {
+          resolve(res.body)
+        })
+    })
+  },
+  create: function(name){
+    return new Promise(resolve => {
+      request.post('/api/triggers')
+        .set('authentication', localStorage.token)
+        .send({ name: name })
+        .end((err, res) => {
+          resolve(res.body)
+        })
+    })
   }
 };

@@ -41,6 +41,7 @@ module Api
       requires :intervalType, type: Integer, default: 0, values: 0..2
       requires :interval,     type: Integer, default: 1, values: 1..99
       requires :startDate,    type: String, default: -> {  Time.now.strftime("%Y-%m-%d") } # , length: 140
+      requires :onetime,      type: Boolean, default: false
     end
     desc 'POST /tasks tasks#create create a new task'
     post '/tasks' do
@@ -53,7 +54,8 @@ module Api
         endMinute:    params[:endMinute],
         intervalType: params[:intervalType],
         interval:     params[:interval],
-        startDate:    params[:startDate]
+        startDate:    params[:startDate],
+        onetime:      params[:onetime]
       )
       @current_user.tasks << task
       task
@@ -70,6 +72,7 @@ module Api
       requires :intervalType, type: Integer, default: 0, values: 0..2
       requires :interval,     type: Integer, default: 1, values: 1..99
       requires :startDate,    type: String, default: -> {  Time.now.strftime("%Y-%m-%d") }
+      requires :onetime,      type: Boolean, default: false
     end
     desc 'PATCH/PUT /tasks/:id tasks#update update a specific task'
     put '/tasks/:id' do
@@ -83,6 +86,7 @@ module Api
       task.intervalType = params[:intervalType]
       task.interval     = params[:interval]
       task.startDate    = params[:startDate]
+      task.onetime      = params[:onetime]
       task.save
     end
 
