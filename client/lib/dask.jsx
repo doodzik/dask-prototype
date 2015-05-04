@@ -87,6 +87,7 @@ export var DaskIndex = React.createClass(R.merge(needsAuth, {
     var newData = this.state.tasks.slice(); //copy array
     newData.splice(index, 1); //remove element
     DaskStore.check(task);
+    this.refs.soundChecked.getDOMNode().play()
     this.setState({tasks: newData}); //update state
   },
   createOnetimeTask: function(){
@@ -110,6 +111,7 @@ export var DaskIndex = React.createClass(R.merge(needsAuth, {
   render: function() {
     return (
       <div>
+        <audio ref="soundChecked" src="audio/check.ogg" preload="auto"></audio>
         <h2>Dasks</h2>
           <input className="u-full-width" placeholder="onetime task" ref="onetimeTask" />
           <input className="button-primary" type="button" value="create" onClick={this.createOnetimeTask} />
